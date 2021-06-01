@@ -39,14 +39,14 @@ export default function Greeting() {
               </p>
               <SocialMedia />
               <div className="button-greeting-div">
-                <Button text="Contact me" href="#contact" />
+                
                 <Button
                   text="See my resume"
                   newTab={true}
                   href={greeting.resumeLink}
                 />
                  <Button
-                  text="Visit My Travel Portfolio"
+                  text="Travel Portfolio"
                   newTab={true}
                   href={greeting.Photographylink}
                   />
