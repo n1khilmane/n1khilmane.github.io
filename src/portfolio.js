@@ -193,7 +193,7 @@ const workExperiences = {
     {
       role: "Stdent Intern",
       company: "Weir Minerals",
-      companylogo: require("./assets/images/weir1.png"),
+      companylogo: require("./assets/images/weir.jpg"),
       date: "April 2019 – June 2019",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     }
