@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b96f2fd8187565ee2d459c7aa7ddaa8b",
+    "revision": "48afba565d03b6dc49f32a304627ef77",
     "url": "/index.html"
   },
   {
@@ -12,7 +12,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/4.7369bb08.chunk.css"
   },
   {
-    "revision": "ce96d61c7420e676ab27",
+    "revision": "bec0f0f413677b896c19",
     "url": "/static/css/main.85b56d60.chunk.css"
   },
   {
@@ -32,8 +32,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/4.793f0f06.chunk.js"
   },
   {
-    "revision": "ce96d61c7420e676ab27",
-    "url": "/static/js/main.f8d672c4.chunk.js"
+    "revision": "bec0f0f413677b896c19",
+    "url": "/static/js/main.e5644b22.chunk.js"
   },
   {
     "revision": "8421e7021e0ad7aeacf0",
@@ -48,8 +48,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/Montserrat-Regular.847627bf.ttf"
   },
   {
-    "revision": "4fd80f9833f313f31cc13d20653f507d",
-    "url": "/static/media/PESlogo.4fd80f98.png"
+    "revision": "6f2db96a42625d7da4cb32134981f8bf",
+    "url": "/static/media/PESlogo.6f2db96a.jpg"
   },
   {
     "revision": "47a7a717679b640ceb1b05d38c480a61",
@@ -58,10 +58,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "51cf7192327488da3d2a171280680c16",
     "url": "/static/media/contactMailDark.51cf7192.svg"
-  },
-  {
-    "revision": "c0a32335bacdd4a6dde01bf5217163e7",
-    "url": "/static/media/cubebio.c0a32335.png"
   },
   {
     "revision": "59389695208d7454c6607bed51ed4316",
@@ -80,12 +76,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/nextuLogo.829ad0a1.webp"
   },
   {
-    "revision": "2e543047aa1426d053d3206b678ccdf0",
-    "url": "/static/media/nyulogo.2e543047.png"
-  },
-  {
-    "revision": "fcba27ad54a2675f8749fd049e0c8c6d",
-    "url": "/static/media/popvue.fcba27ad.png"
+    "revision": "5282c251789e4bd3d1ff8e6e174f613c",
+    "url": "/static/media/nyulogo.5282c251.jpg"
   },
   {
     "revision": "ee62cb58630f29a6e6201b49d4c03728",
