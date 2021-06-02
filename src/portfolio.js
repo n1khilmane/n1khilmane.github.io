@@ -126,7 +126,7 @@ const educationInfo = {
   schools: [
     {
       schoolName: "New York University",
-      logo: require("./assets/images/nyulogo.png"),
+      logo: require("./assets/images/nyulogo.jpg"),
       subHeader: "Master of Science in Computer Science specialization in Cybersecurity",
       duration: "September 2021 - present",
       desc: "Participated in the research of XXX and published 3 papers.",
@@ -137,7 +137,7 @@ const educationInfo = {
     },
     {
       schoolName: "PES University",
-      logo: require("./assets/images/PESlogo.png"),
+      logo: require("./assets/images/PESlogo.jpg"),
       subHeader: "Bachelor of Science in Computer Science",
       duration: "August 2017 - May 2021",
       desc: "Ranked top 10% in the program. Took courses about Software Engineering, Web Security, Operating Systems, ...",
@@ -175,7 +175,7 @@ const workExperiences = {
     {
       role: "AI Research Intern",
       company: "CubeBio AI",
-      companylogo: require("./assets/images/cubebio.png"),
+      companylogo: require("./assets/images/cubebio.jpg"),
       date: "Sept 2020 – Present",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       descBullets: [
@@ -186,7 +186,7 @@ const workExperiences = {
     {
       role: "Software Engineer Intern",
       company: "Popvue",
-      companylogo: require("./assets/images/popvue.png"),
+      companylogo: require("./assets/images/popvue.jpg"),
       date: "August 2019 – November 2019",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     },
