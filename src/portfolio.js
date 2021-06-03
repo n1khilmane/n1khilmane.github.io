@@ -308,17 +308,26 @@ const blogSection = {
 
   blogs: [
     {
-      url: "https://blog.usejournal.com/create-a-google-assistant-action-and-win-a-google-t-shirt-and-cloud-credits-4a8d86d76eae",
-      title: "Win a Google Assistant Tshirt and $200 in Google Cloud Credits",
+      url: "",
+      title: "My Journey from a small town to New York City",
       description:
-        "Do you want to win $200 and Google Assistant Tshirt by creating a Google Assistant Action in less then 30 min?"
+        "This blog documents how my life changed and decisions I made, which were instrumental."
     },
     {
-      url: "https://medium.com/@saadpasta/why-react-is-the-best-5a97563f423e",
-      title: "Why REACT is The Best?",
+      url: "",
+      title: "Genetic Programming",
       description:
-        "React is a JavaScript library for building User Interface. It is maintained by Facebook and a community of individual developers and companies."
+        "How genetic programming will change how we look towards detection of Cyber attacks. "
+    },
+    {
+      url: "",
+      title: "Travel Blog",
+      description:
+        "Blog documenting my trip to Singapore, Malaysia and Thailand."
     }
+
+
+
   ],
   display: true // Set false to hide this section, defaults to true
 };
