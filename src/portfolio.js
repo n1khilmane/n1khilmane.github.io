@@ -333,10 +333,10 @@ const talkSection = {
 
   talks: [
     {
-      title: "Build Actions For Google Assistant",
-      subtitle: "Codelab at GDG DevFest Karachi 2019",
-      slides_url: "https://bit.ly/saadpasta-slides",
-      event_url: "https://www.facebook.com/events/2339906106275053/"
+      title: "Detection of Cyber attacks using GP",
+      subtitle: "CINTI 2020 Budapest, Hungary",
+      slides_url: "https://docs.google.com/presentation/d/11i5XdZ5TtVltKmPbPnDuQ6upZcxSFIkfUa0fYoHx-yU/edit?usp=sharing",
+      event_url: "http://conf.uni-obuda.hu/cinti2020/index.html"
     }
   ],
   display: true // Set false to hide this section, defaults to true
