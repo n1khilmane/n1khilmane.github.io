@@ -129,10 +129,10 @@ const educationInfo = {
       logo: require("./assets/images/nyulogo.jpg"),
       subHeader: "Master of Science in Computer Science specialization in Cybersecurity",
       duration: "September 2021 - present",
-      desc: "Participated in the research of XXX and published 3 papers.",
+      desc: "NYU has a distinguished history of research and education in the field of cybersecurity, and our classes are taught by internationally known experts.As a graduate of the program, I will be ready for a career as a developer of security products, security application programmer, security analyst, and penetration tester. ",
       descBullets: [
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+        " $20,000 Scholarship was awarded based on my past achievements",
+        ""
       ]
     },
     {
@@ -140,8 +140,8 @@ const educationInfo = {
       logo: require("./assets/images/PESlogo.jpg"),
       subHeader: "Bachelor of Science in Computer Science",
       duration: "August 2017 - May 2021",
-      desc: "Ranked top 10% in the program. Took courses about Software Engineering, Web Security, Operating Systems, ...",
-      descBullets: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit"]
+      desc: "GPA 8.8/10, Ranked top 5% in the program. Took courses about Software Engineering, Operating Systems, Data Structures and Algorithms, Database Management, etc. ",
+      descBullets: [""]
     }
   ]
 };
@@ -309,7 +309,7 @@ const blogSection = {
   blogs: [
     {
       url: "",
-      title: "My Journey from a small town to New York City",
+      title: "My Journey to New York City",
       description:
         "This blog documents how my life changed and decisions I made, which were instrumental."
     },
