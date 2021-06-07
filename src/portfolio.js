@@ -36,7 +36,7 @@ const socialMediaLinks = {
   twitter: "https://twitter.com/n1khilmane",
   //unsplash: "https://unsplash.com/@nikhilmane",
   medium: "https://medium.com/@n1khilmane",
-  //stackoverflow: "https://stackoverflow.com/users/10401675/nikhil-mane",
+  stackoverflow: "https://stackoverflow.com/users/10401675/nikhil-mane",
   // Instagram and Twitter are also supported in the links!
  
   display: true // Set true to display this section, defaults to false
@@ -129,10 +129,10 @@ const educationInfo = {
       logo: require("./assets/images/nyulogo.jpg"),
       subHeader: "Master of Science in Computer Science specialization in Cybersecurity",
       duration: "September 2021 - present",
-      desc: "NYU has a distinguished history of research and education in the field of cybersecurity, and our classes are taught by internationally known experts.As a graduate of the program, I will be ready for a career as a developer of security products, security application programmer, security analyst, and penetration tester. ",
+      desc: "NYU has a distinguished history of research and education in the field of cybersecurity, and our classes are taught by internationally known experts. As a graduate of the program, I will be ready for a career as a developer of security products, security application programmer, security analyst, and penetration tester. ",
       descBullets: [
-        " $20,000 Scholarship was awarded based on my past achievements",
-        ""
+        " $20,000 Scholarship was awarded based on my past achievements"
+       
       ]
     },
     {
@@ -141,7 +141,7 @@ const educationInfo = {
       subHeader: "Bachelor of Science in Computer Science",
       duration: "August 2017 - May 2021",
       desc: "GPA 8.8/10, Ranked top 5% in the program. Took courses about Software Engineering, Operating Systems, Data Structures and Algorithms, Database Management, etc. ",
-      descBullets: [""]
+      // descBullets: []
     }
   ]
 };
