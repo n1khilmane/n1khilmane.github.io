@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ff9cb20c4ac345ebd11bb01658c4b19e",
+    "revision": "2e8cb4a3d79b047f2aee86bdca970bd4",
     "url": "/index.html"
   },
   {
@@ -12,7 +12,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/4.0110b6a7.chunk.css"
   },
   {
-    "revision": "ffc2674d788298dad0fd",
+    "revision": "6219ae3c41c038735acd",
     "url": "/static/css/main.8d36422e.chunk.css"
   },
   {
@@ -32,8 +32,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/4.4dbf0128.chunk.js"
   },
   {
-    "revision": "ffc2674d788298dad0fd",
-    "url": "/static/js/main.7276e755.chunk.js"
+    "revision": "6219ae3c41c038735acd",
+    "url": "/static/js/main.39391289.chunk.js"
   },
   {
     "revision": "423ff053a93d9ec4840e",
@@ -44,16 +44,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/Agustina.a3752c4b.woff"
   },
   {
-    "revision": "592d35ad5374b6b1d6428ab22814377c",
-    "url": "/static/media/GP.592d35ad.jpeg"
-  },
-  {
     "revision": "847627bffd52aab57ce2e903f144e07f",
     "url": "/static/media/Montserrat-Regular.847627bf.ttf"
   },
   {
     "revision": "6f2db96a42625d7da4cb32134981f8bf",
     "url": "/static/media/PESlogo.6f2db96a.jpg"
+  },
+  {
+    "revision": "70290619ca54c1f121924a0500bfe633",
+    "url": "/static/media/ai1.70290619.png"
   },
   {
     "revision": "47a7a717679b640ceb1b05d38c480a61",
@@ -72,20 +72,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/googleAssistantLogo.e79c6392.webp"
   },
   {
-    "revision": "eb0fa3dd1830999dd25f1c5f0c721fd0",
-    "url": "/static/media/gp11.eb0fa3dd.jpg"
+    "revision": "449c93a72cb8ced8e61794f82746b5c4",
+    "url": "/static/media/gp121.449c93a7.png"
   },
   {
     "revision": "52be31441c8cf8a8a16bd7a228d428bf",
     "url": "/static/media/manOnTable.52be3144.svg"
   },
   {
-    "revision": "829ad0a1deef4d7295adfecdf12df2be",
-    "url": "/static/media/nextuLogo.829ad0a1.webp"
-  },
-  {
     "revision": "5282c251789e4bd3d1ff8e6e174f613c",
     "url": "/static/media/nyulogo.5282c251.jpg"
+  },
+  {
+    "revision": "cdd7b93acfe9eb7409f7b6c4a3b75a1e",
+    "url": "/static/media/prohelm.cdd7b93a.png"
   },
   {
     "revision": "ee62cb58630f29a6e6201b49d4c03728",
