@@ -145,9 +145,9 @@ const educationInfo = {
       logo: require("./assets/images/nyulogo.jpg"),
       subHeader: "Master of Science in Computer Science specialization in Cybersecurity",
       duration: "September 2021 - present",
-      desc: "NYU has a distinguished history of research and education in the field of cybersecurity, and our classes are taught by internationally known experts. As a graduate of the program, I will be ready for a career as a developer of security products, security application programmer, security analyst, and penetration tester. ",
+      desc: "NYU has a distinguished history of research and education in the field of Cybersecurity, and our classes are taught by internationally known experts. As a graduate of the program, I will be ready for a career as a developer of security products, security application programmer, security analyst, and penetration tester. ",
       descBullets: [
-        " $20,000 Scholarship was awarded based on my past achievements"
+        " $20,000 Scholarship was awarded based on my past achievements."
        
       ]
     },
@@ -157,7 +157,10 @@ const educationInfo = {
       subHeader: "Bachelor of Science in Computer Science",
       duration: "August 2017 - May 2021",
       desc: "GPA 8.8/10, Ranked top 5% in the program. Took courses about Software Engineering, Operating Systems, Data Structures and Algorithms, Database Management, etc. ",
-      // descBullets: []
+      descBullets: [
+        "Was part of College Football Team since 2017. Participated in 8 inter-college tournaments throughout three years.",
+        "Was part of College Photography Club (Pixelloid). Covered events such as annual College Fest, College Hackathons,etc."
+      ]
     }
   ]
 };
@@ -195,8 +198,9 @@ const workExperiences = {
       date: "Sept 2020 – Present",
       desc: "",
       descBullets: [
-        "",
-        ""
+        "Working on Graph Data Representation to Design AI Systems to Predict Pharmaceutical Drug Interactions.",
+        "Used Neo4j to extensively speed up access and enhance data access by orders of magnitude.",
+        "Combined graph databases and recommendation engines’ strengths to identify recommendations for existing drugs concerning new disease targets rapidly."
       ]
     },
     {
@@ -204,14 +208,28 @@ const workExperiences = {
       company: "Popvue",
       companylogo: require("./assets/images/popvue.jpg"),
       date: "August 2019 – November 2019",
-      desc: ""
+      desc: "",
+      descBullets: [
+        "Worked as a Backend Developer. Popvue was based in San Fransisco Bay Area, California. It was a remote internship.",
+        "Tasks included creating API’s, managing the database, compiling and analyzing data, processes, and codes to troubleshoot problems and server components.",
+        "Design custom nodes using HTTP GET and Post methods to acquire information regarding different data points and their devices from the cloud management AWS serve PostgreSQL for database management."
+      ]
     },
+  
     {
       role: "Stdent Intern",
       company: "Weir Minerals",
       companylogo: require("./assets/images/weir.jpg"),
       date: "April 2019 – June 2019",
-      desc: ""
+      desc: "",
+      descBullets: [
+        "Designed and Developed an Augmented Reality Application for Android and iOS to assist Field Engineer and Client for Visualization of industrial site and Monitoring live data.",
+        
+        " Technologies like Model Recognition, Plane Detection, 3D Point Cloud opt for better customer experience were used.",
+        "Internship was awarded after winning Weir EnSci- Tech Meraki Hackathon."
+
+      ]
+
     }
   ]
 };
