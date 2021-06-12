@@ -249,7 +249,7 @@ const bigProjects = {
   subtitle: "SOME OF MY RECENT WORK",
   projects: [
     {
-      image: require("./assets/images/gp11.jpg"),
+      image: require("./assets/images/gp121.png"),
       projectName: "A Pragmatic Optimal Approach for Detection of Cyber Attacks using Genetic Programming",
       projectDesc: "We developed a Genetic Programming(GP) model for the detection of cyberattacks. We were successful in getting optimized results with 98.67% accuracy on Modern DDoS dataset. This research analyzes a novel attack and extracts attackers’ intrusion scenarios and demonstrates different types of DDoS attacks such as Smurf, UDP Flood, SQL Injection DDOS, HTTP Flood. This paper was presented at CINTI 2020, Budapest, Hungary, on 5-7 November 2020 and is published in 20th IEEE (Scopus Indexed) International Symposium on Computational Intelligence and informatics.",
       footerLink: [
@@ -269,7 +269,7 @@ const bigProjects = {
       ]
     },
     {
-      image: require("./assets/images/GP.jpeg"),
+      image: require("./assets/images/prohelm.png"),
       projectName: "ProHelm",
       projectDesc: "Smart biker helmet with XR(Extended Reality) System for hands-free navigation and assistance. Prohelm is a new generation smart helmet created to provide an extended augmented reality-based navigation system, which gives a hands-free and distraction less biking experience. Conducted the research at Yashavantrao Chavan Center for Invention, Innovation, and Incubation (YC-CIII) at Research and Development Center.",
       footerLink: [
@@ -284,18 +284,15 @@ const bigProjects = {
       ]
     },
     {
-      image: require("./assets/images/nextuLogo.webp"),
-      projectName: "AR Assist",
-      projectDesc: "",
+      image: require("./assets/images/ai1.png"),
+      projectName: "A data-driven approach to predicting successes and failures of clinical trials",
+      projectDesc: "We introduce a new data-driven approach that directly predicts the likelihood of toxicity in clinical trials. The model integrates properties of a compound’s targets and its structure to provide a new measure. Drug target network connectivity and expression levels, along with molecular weight, were identified as important indicators of adverse clinical events. Altogether, our method provides a data-driven broadly applicable strategy to identify drugs likely to possess manageable toxicity in clinical trials and will help drive the design of therapeutic agents with less toxicity.",
       footerLink: [
         {
           name: "View Project",
           url: ""
         },
-        {
-          name: "",
-          url: ""
-        }
+        
       ]
     },
    
