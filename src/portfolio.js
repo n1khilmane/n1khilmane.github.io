@@ -141,7 +141,7 @@ const educationInfo = {
   display: true, // Set false to hide this section, defaults to true
   schools: [
     {
-      schoolName: "New York University",
+      schoolName: "New York University, New York City (NY)",
       logo: require("./assets/images/nyulogo.jpg"),
       subHeader: "Master of Science in Computer Science specialization in Cybersecurity",
       duration: "September 2021 - present",
@@ -152,7 +152,7 @@ const educationInfo = {
       ]
     },
     {
-      schoolName: "PES University",
+      schoolName: "PES University, Bangalore, India",
       logo: require("./assets/images/PESlogo.jpg"),
       subHeader: "Bachelor of Science in Computer Science",
       duration: "August 2017 - May 2021",
@@ -195,7 +195,7 @@ const workExperiences = {
       role: "AI Research Intern",
       company: "CubeBio AI",
       companylogo: require("./assets/images/cubebio.jpg"),
-      date: "Sept 2020 – Present",
+      date: "Sept 2020 – April 2021",
       desc: "",
       descBullets: [
         "Working on Graph Data Representation to Design AI Systems to Predict Pharmaceutical Drug Interactions.",
@@ -245,32 +245,60 @@ const openSource = {
 // Some big projects you have worked on
 
 const bigProjects = {
-  title: "Projects",
-  subtitle: "SOME STARTUPS AND COMPANIES THAT I HELPED TO CREATE THEIR TECH",
+  title: "Projects and Research",
+  subtitle: "SOME OF MY RECENT WORK",
   projects: [
     {
-      image: require("./assets/images/saayaHealthLogo.webp"),
-      projectName: "Saayahealth",
-      projectDesc: "",
+      image: require("./assets/images/gp11.jpg"),
+      projectName: "A Pragmatic Optimal Approach for Detection of Cyber Attacks using Genetic Programming",
+      projectDesc: "We developed a Genetic Programming(GP) model for the detection of cyberattacks. We were successful in getting optimized results with 98.67% accuracy on Modern DDoS dataset. This research analyzes a novel attack and extracts attackers’ intrusion scenarios and demonstrates different types of DDoS attacks such as Smurf, UDP Flood, SQL Injection DDOS, HTTP Flood. This paper was presented at CINTI 2020, Budapest, Hungary, on 5-7 November 2020 and is published in 20th IEEE (Scopus Indexed) International Symposium on Computational Intelligence and informatics.",
       footerLink: [
         {
-          name: "Visit Website",
+          name: "Publication",
+          url: "https://ieeexplore.ieee.org/document/9305844"
+        },
+        {
+          name: "Certificate",
+          url: "https://drive.google.com/file/d/1zf6_peN10xud5R5smlysBhApQ0rINU2z/view?usp=sharing"
+        },
+        {
+          name: "View Project",
           url: ""
         }
         //  you can add extra buttons here.
       ]
     },
     {
+      image: require("./assets/images/GP.jpeg"),
+      projectName: "ProHelm",
+      projectDesc: "Smart biker helmet with XR(Extended Reality) System for hands-free navigation and assistance. Prohelm is a new generation smart helmet created to provide an extended augmented reality-based navigation system, which gives a hands-free and distraction less biking experience. Conducted the research at Yashavantrao Chavan Center for Invention, Innovation, and Incubation (YC-CIII) at Research and Development Center.",
+      footerLink: [
+        {
+          name: "View Project",
+          url: ""
+        },
+        {
+          name: "Research Certificate",
+          url: "https://drive.google.com/file/d/1AArItTNH_KR0eoyfn5C1kr6L7rGiyTqg/view?usp=sharing"
+        }
+      ]
+    },
+    {
       image: require("./assets/images/nextuLogo.webp"),
-      projectName: "Nextu",
+      projectName: "AR Assist",
       projectDesc: "",
       footerLink: [
         {
-          name: "Visit Website",
+          name: "View Project",
+          url: ""
+        },
+        {
+          name: "",
           url: ""
         }
       ]
-    }
+    },
+   
   ],
   display: true // Set false to hide this section, defaults to true
 };
@@ -369,9 +397,9 @@ const blogSection = {
 // Talks Sections
 
 const talkSection = {
-  title: "PRESENTATIONS 🙊",
+  title: "PRESENTATIONS 🎙️",
   subtitle: emoji(
-    "I LOVE TO SHARE MY LIMITED KNOWLEDGE AND GET A SPEAKER BADGE 😅"
+    "I LOVE TO SHARE MY LIMITED KNOWLEDGE AND GET A SPEAKER BADGE "
   ),
 
   talks: [
