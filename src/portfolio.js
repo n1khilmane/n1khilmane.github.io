@@ -59,7 +59,7 @@ const skillsSection = {
     
     emoji("⚡ Hosting and maintaining websites on virtual machine instances along with integration of databases"),
     emoji(
-      "⚡ Integration of third party services such as Firebase/ AWS / GCP"
+      "⚡ Integration of third party services such as Firebase / AWS / GCP"
     )
   ],
 
