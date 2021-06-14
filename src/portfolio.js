@@ -284,7 +284,7 @@ const bigProjects = {
       ]
     },
     {
-      image: require("./assets/images/ai1.jpg"),
+      image: require("./assets/images/dd.jpg"),
       projectName: "A data-driven approach to predicting successes and failures of clinical trials",
       projectDesc: "We introduce a new data-driven approach that directly predicts the likelihood of toxicity in clinical trials. The model integrates properties of a compound’s targets and its structure to provide a new measure. Drug target network connectivity and expression levels, along with molecular weight, were identified as important indicators of adverse clinical events. Altogether, our method provides a data-driven broadly applicable strategy to identify drugs likely to possess manageable toxicity in clinical trials and will help drive the design of therapeutic agents with less toxicity.",
       footerLink: [
