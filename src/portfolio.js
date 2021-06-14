@@ -142,7 +142,7 @@ const educationInfo = {
   schools: [
     {
       schoolName: "New York University, New York City (NY)",
-      logo: require("./assets/images/nyulogo.jpg"),
+      logo: require("./assets/images/nyu123.jpg"),
       subHeader: "Master of Science in Computer Science specialization in Cybersecurity",
       duration: "September 2021 - present",
       desc: "NYU has a distinguished history of research and education in the field of Cybersecurity, and our classes are taught by internationally known experts. As a graduate of the program, I will be ready for a career as a developer of security products, security application programmer, security analyst, and penetration tester. ",
@@ -304,54 +304,55 @@ const bigProjects = {
 // Include certificates, talks etc
 
 const achievementSection = {
-  title: emoji("Achievements And Certifications 🏆 "),
+  title: emoji("Achievements 🏆 "),
   subtitle:
-    "Achievements, Certifications, Award Letters and Some Cool Stuff that I have done !",
+    "Achievements, Award Letters and Some Cool Stuff that I have done !",
 
   achievementsCards: [
     {
-      title: "Google Code-In Finalist",
+      title: "Hackathons",
       subtitle:
-        "",
-      image: require("./assets/images/codeInLogo.webp"),
+        "Participated in different Hackathons and won them.",
+      image: require("./assets/images/HAC.jpg"),
       footerLink: [
+       
         {
-          name: "Certification",
+          name: "Award Letters",
           url: ""
         },
         {
-          name: "Award Letter",
-          url: ""
-        },
-        {
-          name: "Google Code-in Blog",
+          name: "Blogpost",
           url: ""
         }
       ]
     },
     {
-      title: "Google Assistant Action",
+      title: "Football",
       subtitle:
-        "Developed a Google Assistant Action JavaScript Guru that is available on 2 Billion devices world wide.",
-      image: require("./assets/images/googleAssistantLogo.webp"),
+        "Represented College in various football tournaments and also represented Titans Football Club in The Amatuer League, Bangalore.",
+      image: require("./assets/images/foot.jpg"),
       footerLink: [
         {
-          name: "View Google Assistant Action",
+          name: "Award Letters and Medals",
           url: ""
-        }
+        },
+        {
+          name: "Blogpost",
+          url: ""
+        },
+
       ]
     },
 
     {
-      title: "PWA Web App Developer",
-      subtitle: "Completed Certifcation from SMIT for PWA Web App Development",
-      image: require("./assets/images/pwaLogo.webp"),
+      title: "Scholarship for Graduate Study",
+      subtitle: "Based on my previous achievements, I was awarded $20,000 Scholarship on tution",
+      image: require("./assets/images/nyu123.jpg"),
       footerLink: [
-        {name: "Certification", url: ""},
         {
-          name: "Final Project",
-          url: ""
-        }
+          name: "Award Letter", url: ""
+        },
+      
       ]
     }
   ],
