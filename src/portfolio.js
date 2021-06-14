@@ -14,9 +14,9 @@ const greeting = {
   username: "Nikhil Mane",
   title: "Hi all, I'm Nikhil",
   subTitle: emoji(
-    "This portfolio is currently under development"
+   // "This portfolio is currently under development"
     
-   //"A zealous Full Stack Software Developer 🚀 having an experience of building Web and Mobile applications with JavaScript / Reactjs / Nodejs / React Native and some other cool libraries and frameworks."
+   "I am a zealous Software Developer 🚀, who is passionate of building end to end products which create impact in the society 📝 Incoming graduate student at New York University ⚡ I know what I'm needing and I don't want to waste more time, I'm in a New York state of mind 🏆"
   ),
   resumeLink:
     "https://drive.google.com/file/d/1Ik4afPuYXHS6RahNQyXgYWil89CKQsEl/view?usp=sharing",
