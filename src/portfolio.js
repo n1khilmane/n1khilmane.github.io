@@ -290,7 +290,7 @@ const bigProjects = {
       footerLink: [
         {
           name: "View Project",
-          url: ""
+          url: "https://github.com/n1khilmane/A-data-driven-approach-to-predicting-successes-and-failures-of-clinical-trials"
         },
         
       ]
