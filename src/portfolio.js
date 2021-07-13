@@ -22,7 +22,7 @@ const greeting = {
     "https://drive.google.com/file/d/1Ik4afPuYXHS6RahNQyXgYWil89CKQsEl/view?usp=sharing",
 
     Photographylink:
-    "https://n1khilmane.github.io/portfolio/",
+    "https://nikhil-mane.wixsite.com/portfolio",
   displayGreeting: true // Set false to hide this section, defaults to true
 };
 
@@ -346,7 +346,7 @@ const achievementSection = {
 
     {
       title: "Scholarship for Graduate Study",
-      subtitle: "Based on my previous achievements, I was awarded $20,000 Scholarship on tution",
+      subtitle: "Based on my previous achievements, I was awarded $20,000 Scholarship for Graduate study. ",
       image: require("./assets/images/nyu123.jpg"),
       footerLink: [
         {
@@ -407,6 +407,7 @@ const talkSection = {
       slides_url: "https://docs.google.com/presentation/d/11i5XdZ5TtVltKmPbPnDuQ6upZcxSFIkfUa0fYoHx-yU/edit?usp=sharing",
       event_url: "http://conf.uni-obuda.hu/cinti2020/index.html"
     }
+
   ],
   display: true // Set false to hide this section, defaults to true
 };
