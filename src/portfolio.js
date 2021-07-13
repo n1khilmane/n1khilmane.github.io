@@ -263,7 +263,7 @@ const bigProjects = {
         },
         {
           name: "View Project",
-          url: ""
+          url: "https://github.com/n1khilmane/A-Pragmatic-Optimal-Approach-for-Detection-of-Cyber-Attacks-using-Genetic-Programming"
         }
         //  you can add extra buttons here.
       ]
@@ -275,7 +275,7 @@ const bigProjects = {
       footerLink: [
         {
           name: "View Project",
-          url: ""
+          url: "https://github.com/n1khilmane/ProHelm"
         },
         {
           name: "Research Certificate",
