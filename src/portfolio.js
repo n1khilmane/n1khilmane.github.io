@@ -318,7 +318,7 @@ const achievementSection = {
        
         {
           name: "Award Letters",
-          url: ""
+          url: "https://drive.google.com/file/d/1-20zWXx_rnIDEfMgW1H9GFKTq6MWIGbt/view?usp=sharing"
         },
         {
           name: "Blogpost",
@@ -334,11 +334,11 @@ const achievementSection = {
       footerLink: [
         {
           name: "Award Letters and Medals",
-          url: ""
+          url: "https://drive.google.com/file/d/10r03j0pC0x91ihjvsPFCLWoPjZFRMJjY/view?usp=sharing"
         },
         {
           name: "Blogpost",
-          url: ""
+          url: "https://medium.com/@n1khilmane/my-football-journey-3fa77956df18"
         },
 
       ]
@@ -350,7 +350,7 @@ const achievementSection = {
       image: require("./assets/images/nyu123.jpg"),
       footerLink: [
         {
-          name: "Award Letter", url: ""
+          name: "Award Letter", url: "https://drive.google.com/file/d/1oDb4CbtcdXvsDwzSIYF7ZI9VFUxPN9Vt/view?usp=sharing"
         },
       
       ]
@@ -368,23 +368,23 @@ const blogSection = {
 
   blogs: [
     {
-      url: "",
+      url: "https://medium.com/@n1khilmane/my-journey-to-the-new-york-city-60c918f159e4",
       title: "My Journey to New York City",
       description:
         "This blog documents how my life changed and decisions I made, which were instrumental."
     },
     {
-      url: "",
+      url: "https://medium.com/@n1khilmane/genetic-programming-c65362433a68",
       title: "Genetic Programming",
       description:
         "How genetic programming will change how we look towards detection of Cyber attacks. "
-    },
-    {
+    }
+    /*{
       url: "",
       title: "Travel Blog",
       description:
         "Blog documenting my trip to Singapore, Malaysia and Thailand."
-    }
+    }*/
 
 
 
