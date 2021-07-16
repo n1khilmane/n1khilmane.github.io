@@ -322,7 +322,7 @@ const achievementSection = {
         },
         {
           name: "Blogpost",
-          url: ""
+          url: "https://medium.com/@n1khilmane/hackathons-547539b5f4dd"
         }
       ]
     },
@@ -355,6 +355,7 @@ const achievementSection = {
       
       ]
     }
+   
   ],
   display: true // Set false to hide this section, defaults to true
 };
