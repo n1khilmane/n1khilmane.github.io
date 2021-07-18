@@ -217,7 +217,7 @@ const workExperiences = {
     },
   
     {
-      role: "Stdent Intern",
+      role: "Student Intern",
       company: "Weir Minerals",
       companylogo: require("./assets/images/weir.jpg"),
       date: "April 2019 – June 2019",
