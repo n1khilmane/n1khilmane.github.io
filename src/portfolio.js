@@ -16,7 +16,7 @@ const greeting = {
   subTitle: emoji(
    // "This portfolio is currently under development"
     
-   "I am a zealous Software Developer 🚀, who is passionate about building end to end products that create an impact in the society 📝  "
+   "I am a zealous Software Developer 🚀, who is passionate about building end to end products that create an impact in the society 📝. CS @ NYU "
   ),
   resumeLink:
     "https://drive.google.com/file/d/1Ik4afPuYXHS6RahNQyXgYWil89CKQsEl/view?usp=sharing",
