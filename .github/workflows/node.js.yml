@@ -4,12 +4,10 @@ env:
   GITHUB_USERNAME: ${{ github.repository_owner }}
   REACT_APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This is automatically set by Github Actions
   USE_GITHUB_DATA: "true"
+# Auto-deploy disabled (Sep 2026): gh-pages now holds a static placeholder.
+# Re-enable push/schedule triggers to redeploy the React portfolio.
 on:
-  push:
-    branches:
-      - master
-  schedule:
-    - cron: "0 12 * * 1"
+  workflow_dispatch:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
