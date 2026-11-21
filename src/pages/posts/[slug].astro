@@ -1,0 +1,46 @@
+---
+import { render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { getPosts, readTime, fmtDate, type Post } from "../../lib";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2);
+---
+<Base title={post.data.title} description={post.data.description}>
+  <a class="back mono" href={post.data.mode === "life" ? "/?mode=life" : "/"}>← home</a>
+  <article>
+    <header>
+      <h1>{post.data.title}</h1>
+      <p class="mono meta">
+        <time datetime={post.data.date.toISOString()}>{fmtDate(post.data.date, "long")}</time>
+        <span>·</span><span>{readTime(post.body)} min</span>
+        <span>·</span><span>{post.data.mode}</span>
+        {post.data.draft && <><span>·</span><span class="draft">draft</span></>}
+      </p>
+    </header>
+    {toc.length >= 3 && (
+      <nav class="toc mono" aria-label="Contents">
+        {toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
+      </nav>
+    )}
+    <div class="prose"><Content /></div>
+  </article>
+</Base>
+
+<style>
+  .back { color: var(--muted); text-decoration: none; }
+  .back:hover { color: var(--accent); }
+  header { margin: 2.5rem 0 2rem; }
+  h1 { font-size: 1.875rem; font-weight: 600; letter-spacing: -0.025em; line-height: 1.2; margin: 0 0 0.75rem; }
+  .meta { color: var(--faint); margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .draft { color: var(--accent); }
+  .toc { display: flex; flex-direction: column; gap: 0.3rem; padding: 0 0 1.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--line); }
+  .toc a { color: var(--muted); text-decoration: none; }
+  .toc a:hover { color: var(--accent); }
+</style>
