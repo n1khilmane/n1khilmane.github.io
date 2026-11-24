@@ -23,6 +23,7 @@ const year = new Date().getFullYear();
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@n1khilmane" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={site.name} href="/rss.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
@@ -47,6 +48,7 @@ const year = new Date().getFullYear();
         <span>© {year} {site.name}</span>
         <span class="foot-r">
           {home && <span class="hint">press <kbd>w</kbd> / <kbd>l</kbd></span>}
+          <a href="/rss.xml">rss</a>
           <a href="/archive">archive</a>
         </span>
       </footer>

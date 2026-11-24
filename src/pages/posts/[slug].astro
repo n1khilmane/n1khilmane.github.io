@@ -6,14 +6,19 @@ import { getPosts, readTime, fmtDate, type Post } from "../../lib";
 
 export async function getStaticPaths() {
   const posts = await getPosts();
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+  return posts.map((post) => {
+    const same = posts.filter((p) => p.data.mode === post.data.mode);
+    const i = same.findIndex((p) => p.id === post.id);
+    return { params: { slug: post.id }, props: { post, newer: same[i - 1], older: same[i + 1] } };
+  });
 }
 
-const { post } = Astro.props as { post: Post };
+const { post, newer, older } = Astro.props as { post: Post; newer?: Post; older?: Post };
 const { Content, headings } = await render(post);
 const toc = (headings as MarkdownHeading[]).filter((h) => h.depth === 2);
 ---
 <Base title={post.data.title} description={post.data.description} mode={post.data.mode}>
+  <div class="progress" aria-hidden="true"></div>
   <article>
     <header>
       <h1 class="display">{post.data.title}</h1>
@@ -26,19 +31,91 @@ const toc = (headings as MarkdownHeading[]).filter((h) => h.depth === 2);
     </header>
     {toc.length >= 3 && (
       <nav class="toc mono" aria-label="Contents">
+        <span class="toc-k">contents</span>
         {toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
       </nav>
     )}
     <div class="prose"><Content /></div>
   </article>
+
+  {(newer || older) && (
+    <nav class="pn" aria-label="More posts">
+      {older ? <a href={`/posts/${older.id}/`}><span class="mono">← older</span><span>{older.data.title}</span></a> : <span></span>}
+      {newer && <a class="r" href={`/posts/${newer.id}/`}><span class="mono">newer →</span><span>{newer.data.title}</span></a>}
+    </nav>
+  )}
 </Base>
 
+<script>
+  // reading progress
+  const bar = document.querySelector<HTMLElement>(".progress");
+  const article = document.querySelector("article");
+  if (bar && article) {
+    const update = () => {
+      const r = article.getBoundingClientRect();
+      const total = r.height - innerHeight;
+      const p = total <= 0 ? 1 : Math.min(1, Math.max(0, -r.top / total));
+      bar.style.transform = `scaleX(${p})`;
+    };
+    addEventListener("scroll", update, { passive: true });
+    addEventListener("resize", update);
+    update();
+  }
+
+  // heading anchors
+  for (const h of document.querySelectorAll<HTMLElement>(".prose h2[id], .prose h3[id]")) {
+    const a = document.createElement("a");
+    a.href = `#${h.id}`; a.className = "anchor"; a.textContent = "#"; a.setAttribute("aria-label", "Link to section");
+    h.append(a);
+  }
+
+  // footnotes -> sidenotes (shown in margin on wide screens via CSS)
+  const prose = document.querySelector(".prose");
+  for (const ref of document.querySelectorAll<HTMLAnchorElement>(".prose a[data-footnote-ref]")) {
+    const li = document.getElementById(decodeURIComponent(ref.hash.slice(1)));
+    const block = ref.closest("p, li, blockquote");
+    if (!li || !block || !prose) continue;
+    const note = document.createElement("aside");
+    note.className = "sidenote mono";
+    const clone = li.cloneNode(true) as HTMLElement;
+    clone.querySelectorAll("[data-footnote-backref]").forEach((b) => b.remove());
+    note.innerHTML = `<span class="n">${ref.textContent}</span> ${clone.innerHTML.replace(/<\/?p>/g, "")}`;
+    block.before(note);
+  }
+  if (document.querySelector(".sidenote")) document.documentElement.classList.add("has-sidenotes");
+</script>
+
 <style>
+  .progress {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px; background: var(--accent);
+    transform-origin: 0 50%; transform: scaleX(0); z-index: 10;
+  }
   header { margin: 4.5rem 0 2rem; }
   h1 { font-size: clamp(1.75rem, 5vw, 2.2rem); line-height: 1.15; margin: 0 0 0.75rem; }
   .meta { color: var(--faint); margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .draft { color: var(--accent); }
   .toc { display: flex; flex-direction: column; gap: 0.3rem; padding: 0 0 1.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--line); }
+  .toc-k { color: var(--faint); margin-bottom: 0.25rem; }
   .toc a { color: var(--muted); text-decoration: none; }
   .toc a:hover { color: var(--accent); }
+
+  .prose :global(.anchor) { margin-left: 0.4rem; color: var(--faint); text-decoration: none; opacity: 0; transition: opacity .15s; }
+  .prose :global(h2:hover .anchor), .prose :global(h3:hover .anchor), .prose :global(.anchor:focus) { opacity: 1; }
+
+  .prose :global(.sidenote) { display: none; }
+  @media (min-width: 76rem) {
+    .prose :global(.sidenote) {
+      display: block; float: right; clear: right; width: 14rem; margin: 0.3rem -16.5rem 1rem 0;
+      font-size: 0.75rem; line-height: 1.5; color: var(--muted);
+    }
+    .prose :global(.sidenote .n) { color: var(--accent); }
+    :global(.has-sidenotes) .prose :global(section.footnotes) { display: none; }
+  }
+  .prose :global(section.footnotes) { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.875rem; color: var(--muted); }
+  .prose :global(section.footnotes h2) { font: 400 0.78rem var(--mono); color: var(--faint); margin: 0 0 0.5rem; }
+
+  .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 4rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
+  .pn a { display: flex; flex-direction: column; gap: 0.2rem; text-decoration: none; }
+  .pn a .mono { color: var(--faint); }
+  .pn .r { text-align: right; }
 </style>
