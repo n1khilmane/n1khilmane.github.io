@@ -10,6 +10,14 @@ import Palette from "../components/Palette.astro";
 interface Props { title?: string; description?: string; noindex?: boolean; mode?: Mode; home?: boolean; og?: string }
 const { title, description = site.bio.work, noindex = false, mode, home = false, og = "/og/index.png" } = Astro.props;
 const ogUrl = new URL(og, site.url);
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  url: site.url,
+  image: new URL("/og/index.png", site.url).href,
+  sameAs: site.links.filter((l) => l.href.startsWith("http")).map((l) => l.href),
+};
 const fullTitle = title ? `${title} · ${site.name}` : site.name;
 const canonical = new URL(Astro.url.pathname, site.url);
 const year = new Date().getFullYear();
@@ -33,6 +41,10 @@ const year = new Date().getFullYear();
     <meta name="twitter:image" content={ogUrl} />
     <meta name="twitter:site" content="@n1khilmane" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafaf8" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111110" />
+    {home && <script type="application/ld+json" set:html={JSON.stringify(person)} />}
     <link rel="alternate" type="application/rss+xml" title={site.name} href="/rss.xml" />
     <script is:inline>
       (function () {
