@@ -65,22 +65,28 @@ const toc = (headings as MarkdownHeading[]).filter((h) => h.depth === 2);
   // heading anchors
   for (const h of document.querySelectorAll<HTMLElement>(".prose h2[id], .prose h3[id]")) {
     const a = document.createElement("a");
-    a.href = `#${h.id}`; a.className = "anchor"; a.textContent = "#"; a.setAttribute("aria-label", "Link to section");
+    a.href = `#${h.id}`; a.className = "anchor"; a.setAttribute("aria-label", `Link to ${h.textContent}`);
+    a.innerHTML = '<span aria-hidden="true">#</span>';
     h.append(a);
   }
 
   // footnotes -> sidenotes (shown in margin on wide screens via CSS)
   const prose = document.querySelector(".prose");
   for (const ref of document.querySelectorAll<HTMLAnchorElement>(".prose a[data-footnote-ref]")) {
-    const li = document.getElementById(decodeURIComponent(ref.hash.slice(1)));
+    let id = ref.hash.slice(1);
+    try { id = decodeURIComponent(id); } catch {}
+    const li = document.getElementById(id);
     const block = ref.closest("p, li, blockquote");
     if (!li || !block || !prose) continue;
     const note = document.createElement("aside");
     note.className = "sidenote mono";
+    note.id = `sn-${id}`;
     const clone = li.cloneNode(true) as HTMLElement;
     clone.querySelectorAll("[data-footnote-backref]").forEach((b) => b.remove());
     note.innerHTML = `<span class="n">${ref.textContent}</span> ${clone.innerHTML.replace(/<\/?p>/g, "")}`;
     block.before(note);
+    // On wide screens the footnote list is hidden; point the ref at its sidenote instead.
+    if (matchMedia("(min-width: 76rem)").matches) ref.href = `#${note.id}`;
   }
   if (document.querySelector(".sidenote")) document.documentElement.classList.add("has-sidenotes");
 </script>

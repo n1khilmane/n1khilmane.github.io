@@ -20,10 +20,10 @@ const items: Item[] = [
 const email = site.links.find((l) => l.href.startsWith("mailto:"))?.href.slice(7) ?? "";
 ---
 <dialog class="palette" aria-label="Command menu" data-email={email}>
-  <input class="q" type="text" placeholder="Search or jump to…" autocomplete="off" spellcheck="false" aria-label="Search" />
-  <ul class="list" role="listbox">
+  <input class="q" type="text" role="combobox" aria-controls="palette-list" aria-expanded="true" aria-autocomplete="list" placeholder="Search or jump to…" autocomplete="off" spellcheck="false" aria-label="Search" />
+  <ul class="list" role="listbox" id="palette-list" aria-label="Results">
     {items.map((it, i) => (
-      <li role="option" data-i={i} data-href={it.href} data-action={it.action} data-text={`${it.group} ${it.label}`.toLowerCase()}>
+      <li role="option" id={`pal-${i}`} data-i={i} data-href={it.href} data-action={it.action} data-text={`${it.group} ${it.label}`.toLowerCase()}>
         <span class="g mono">{it.group}</span>
         <span class="l">{it.label}</span>
         {it.hint && <span class="h mono">{it.hint}</span>}
@@ -46,7 +46,8 @@ const email = site.links.find((l) => l.href.startsWith("mailto:"))?.href.slice(7
     const v = visible();
     sel = Math.max(0, Math.min(sel, v.length - 1));
     opts.forEach((o) => o.setAttribute("aria-selected", "false"));
-    if (v[sel]) { v[sel].setAttribute("aria-selected", "true"); v[sel].scrollIntoView({ block: "nearest" }); }
+    if (v[sel]) { v[sel].setAttribute("aria-selected", "true"); v[sel].scrollIntoView({ block: "nearest" }); q.setAttribute("aria-activedescendant", v[sel].id); }
+    else q.removeAttribute("aria-activedescendant");
     none.hidden = v.length > 0;
   }
   function filter() {
@@ -56,6 +57,13 @@ const email = site.links.find((l) => l.href.startsWith("mailto:"))?.href.slice(7
   }
   function open() { if (dlg.open) return; q.value = ""; filter(); dlg.showModal(); q.focus(); }
   function close() { dlg.close(); }
+
+  function toast(msg: string) {
+    const t = document.createElement("div");
+    t.className = "toast mono"; t.textContent = msg; t.setAttribute("role", "status");
+    document.body.append(t);
+    setTimeout(() => t.remove(), 1800);
+  }
 
   function setTheme(t: string) {
     const r = document.documentElement;
@@ -71,9 +79,15 @@ const email = site.links.find((l) => l.href.startsWith("mailto:"))?.href.slice(7
     const [kind, arg] = action.split(":");
     if (kind === "theme") setTheme(arg);
     else if (kind === "mode") {
+      try { localStorage.setItem("mode", arg); } catch {}
       if (document.querySelector(".toggle")) document.dispatchEvent(new KeyboardEvent("keydown", { key: arg[0] }));
       else location.href = arg === "life" ? "/?mode=life" : "/?mode=work";
-    } else if (kind === "copy-email") navigator.clipboard?.writeText(dlg.dataset.email || "");
+    } else if (kind === "copy-email") {
+      const email = dlg.dataset.email || "";
+      const done = (msg: string) => toast(msg);
+      if (navigator.clipboard) navigator.clipboard.writeText(email).then(() => done("Email copied"), () => { location.href = `mailto:${email}`; });
+      else location.href = `mailto:${email}`;
+    }
   }
 
   q.addEventListener("input", filter);
@@ -121,6 +135,11 @@ const email = site.links.find((l) => l.href.startsWith("mailto:"))?.href.slice(7
   li[hidden] { display: none; }
   li[aria-selected="true"] { background: var(--accent-soft); }
   li[aria-selected="true"] .l { color: var(--accent); }
+  li[aria-selected="true"] :is(.g, .h) { color: var(--muted); }
+  :global(.toast) {
+    position: fixed; left: 50%; bottom: 2rem; transform: translateX(-50%); z-index: 200;
+    background: var(--fg); color: var(--bg); padding: 0.45rem 0.9rem; border-radius: 999px; font-size: 0.78rem;
+  }
   .g, .h { color: var(--faint); }
   .none { color: var(--faint); padding: 0.5rem 1.1rem 1rem; margin: 0; }
   .foot { display: flex; gap: 1rem; margin: 0; padding: 0.55rem 1.1rem; border-top: 1px solid var(--line); color: var(--faint); font-size: 0.7rem; }
