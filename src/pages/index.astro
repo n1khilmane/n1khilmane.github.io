@@ -1,0 +1,175 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import { site, projects, type Mode } from "../data/site";
+import { getPosts, readTime, fmtDate } from "../lib";
+import photo from "../assets/nikhil.jpg";
+
+const posts = await getPosts();
+const modes: Mode[] = ["work", "life"];
+const empty: Record<Mode, { posts: string; built: string }> = {
+  work: { posts: "First post soon.", built: "" },
+  life: { posts: "Nothing here yet.", built: "Nothing here yet." },
+};
+---
+<Base>
+  <header class="intro">
+    <Image src={photo} alt="Nikhil Mane" width={160} height={160} class="photo" loading="eager" />
+    <h1>{site.name}</h1>
+
+    <div class="toggle mono" role="group" aria-label="View">
+      <button type="button" data-set="work">work</button>
+      <button type="button" data-set="life">life</button>
+      <span class="pill" aria-hidden="true"></span>
+    </div>
+
+    {modes.map((m) => <p class="bio" data-show={m}>{site.bio[m]}</p>)}
+
+    <nav class="links mono" aria-label="Elsewhere">
+      {site.links.map((l) => <a href={l.href} rel="me">{l.label}</a>)}
+    </nav>
+  </header>
+
+  {modes.map((m) => {
+    const list = posts.filter((p) => p.data.mode === m);
+    const built = projects.filter((p) => p.mode === m);
+    return (
+      <div data-show={m}>
+        <section>
+          <h2 class="label">writing</h2>
+          {list.length === 0 ? (
+            <p class="muted empty">{empty[m].posts}</p>
+          ) : (
+            <ul class="posts">
+              {list.map((p) => (
+                <li>
+                  <a href={`/posts/${p.id}/`}>
+                    <time class="mono" datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time>
+                    <span class="t">{p.data.title}</span>
+                    <span class="mono rt">{readTime(p.body)} min</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {(built.length > 0 || empty[m].built) && (
+          <section>
+            <h2 class="label">built</h2>
+            {built.length === 0 ? (
+              <p class="muted empty">{empty[m].built}</p>
+            ) : (
+              <div class="cards">
+                {built.map((p) => {
+                  const Tag = p.href ? "a" : "div";
+                  return (
+                    <Tag class="card" href={p.href}>
+                      <div class="thumb">
+                        {p.thumb ? <Image src={p.thumb} alt="" width={720} /> : <span class="ph">{p.name.toLowerCase()}</span>}
+                      </div>
+                      <div class="meta">
+                        <div class="row">
+                          <h3>{p.name}{p.href && <span class="arrow" aria-hidden="true"> ↗</span>}</h3>
+                          {p.tag && <span class="tag mono">{p.tag}</span>}
+                        </div>
+                        <p class="muted">{p.blurb}</p>
+                      </div>
+                    </Tag>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+        )}
+      </div>
+    );
+  })}
+</Base>
+
+<script is:inline>
+  (function () {
+    var root = document.documentElement;
+    var btns = document.querySelectorAll(".toggle button");
+    function sync() {
+      btns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.set === root.dataset.mode)); });
+    }
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        root.dataset.mode = b.dataset.set;
+        try { localStorage.setItem("mode", b.dataset.set); } catch (e) {}
+        var u = new URL(location.href);
+        if (b.dataset.set === "work") u.searchParams.delete("mode"); else u.searchParams.set("mode", b.dataset.set);
+        history.replaceState(null, "", u);
+        sync();
+      });
+    });
+    sync();
+  })();
+</script>
+
+<style>
+  .intro { display: flex; flex-direction: column; align-items: flex-start; }
+  .photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; }
+  h1 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.025em; line-height: 1.15; margin: 0 0 1rem; }
+  .bio { margin: 1.25rem 0 0; font-size: 1.0625rem; max-width: 32rem; }
+  .links { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; margin-top: 1.25rem; }
+  .links a { color: var(--muted); text-decoration: none; }
+  .links a:hover { color: var(--accent); }
+
+  .toggle {
+    position: relative; display: inline-grid; grid-template-columns: 1fr 1fr;
+    padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--card);
+  }
+  .toggle button {
+    position: relative; z-index: 1; font: inherit; color: var(--muted);
+    background: none; border: 0; padding: 0.3rem 1rem; border-radius: 999px; cursor: pointer;
+    transition: color 0.2s;
+  }
+  .toggle button[aria-pressed="true"] { color: var(--accent); }
+  .toggle .pill {
+    position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px);
+    border-radius: 999px; background: var(--accent-soft);
+    transition: transform 0.25s cubic-bezier(.3,.7,.2,1), background 0.25s;
+  }
+  :global(:root[data-mode="life"]) .toggle .pill { transform: translateX(100%); }
+  @media (prefers-reduced-motion: reduce) { .toggle .pill, .toggle button { transition: none; } }
+
+  .empty { margin: 0; font-size: 0.9375rem; }
+
+  .posts { list-style: none; margin: 0; padding: 0; }
+  .posts a {
+    display: grid; grid-template-columns: 5.5rem 1fr auto; gap: 1rem; align-items: baseline;
+    padding: 0.55rem 0; text-decoration: none; border-bottom: 1px solid var(--line);
+  }
+  .posts li:first-child a { border-top: 1px solid var(--line); }
+  .posts time, .posts .rt { color: var(--faint); }
+  .posts a:hover .t { color: var(--accent); }
+  @media (max-width: 30rem) {
+    .posts a { grid-template-columns: 1fr auto; gap: 0.1rem 1rem; }
+    .posts time { grid-column: 1 / -1; }
+  }
+
+  .cards { display: grid; gap: 1rem; }
+  .card {
+    display: block; text-decoration: none; color: inherit;
+    border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--card);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  a.card:hover { border-color: var(--accent); transform: translateY(-2px); color: inherit; }
+  .thumb {
+    aspect-ratio: 2 / 1; background: var(--accent-soft); border-bottom: 1px solid var(--line);
+    display: grid; place-items: center; overflow: hidden;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .ph { font: 600 clamp(2rem, 9vw, 3.25rem)/1 var(--sans); letter-spacing: -0.04em; color: var(--accent); }
+  .meta { padding: 0.9rem 1.1rem 1rem; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .meta h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+  .meta p { margin: 0.2rem 0 0; font-size: 0.9375rem; }
+  .arrow { color: var(--faint); }
+  .tag {
+    font-size: 0.6875rem; color: var(--accent); border: 1px solid currentColor;
+    padding: 0.1rem 0.5rem; border-radius: 999px; white-space: nowrap; opacity: 0.85;
+  }
+</style>
