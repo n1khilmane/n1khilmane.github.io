@@ -111,7 +111,9 @@ footer.site a:hover { color: var(--accent); }
 footer.site kbd { font: inherit; border: 1px solid var(--line); border-radius: 4px; padding: 0 .3rem; }
 
 /* prose for posts */
-.prose { font-size: 1.0625rem; line-height: 1.75; }
+.prose { font-size: 1.0625rem; line-height: 1.75; overflow-wrap: anywhere; }
+.prose table { display: block; overflow-x: auto; max-width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+.prose th, .prose td { border-bottom: 1px solid var(--line); padding: 0.4rem 0.75rem 0.4rem 0; text-align: left; }
 :root[data-mode="life"] .prose { font-size: 1.15rem; }
 .prose h2 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.3rem; letter-spacing: var(--display-track); margin: 2.5rem 0 0.75rem; }
 .prose h3 { font-size: 1.0625rem; font-weight: 600; margin: 2rem 0 0.5rem; }

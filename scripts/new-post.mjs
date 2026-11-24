@@ -10,7 +10,11 @@ if (!title) {
 }
 const mode = args.includes("--life") ? "life" : "work";
 const draft = !args.includes("--publish");
-const slug = title.toLowerCase().normalize("NFKD").replace(/[^\w\s-]/g, "").trim().replace(/[\s_]+/g, "-").replace(/-+/g, "-");
+const slug = title.toLowerCase().normalize("NFKD").replace(/[^\w\s-]/g, "").trim().replace(/[\s_]+/g, "-").replace(/-+/g, "-").replace(/^-+|-+$/g, "");
+if (!slug) {
+  console.error("Title produced an empty slug; use ASCII letters or numbers.");
+  process.exit(1);
+}
 const date = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD, local time
 const path = `src/content/posts/${slug}.md`;
 
@@ -22,7 +26,7 @@ writeFileSync(path, `---
 title: ${JSON.stringify(title)}
 date: ${date}
 mode: ${mode}
-description: ""
+# description: One line for previews and SEO
 draft: ${draft}
 ---
 

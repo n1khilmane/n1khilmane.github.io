@@ -8,7 +8,8 @@ import { site, type Mode } from "../data/site";
 import Palette from "../components/Palette.astro";
 
 interface Props { title?: string; description?: string; noindex?: boolean; mode?: Mode; home?: boolean; og?: string }
-const { title, description = site.bio.work, noindex = false, mode, home = false, og = "/og/index.png" } = Astro.props;
+const { title, noindex = false, mode, home = false, og = "/og/index.png" } = Astro.props;
+const description = Astro.props.description || site.bio.work;
 const ogUrl = new URL(og, site.url);
 const person = {
   "@context": "https://schema.org",
@@ -52,7 +53,8 @@ const year = new Date().getFullYear();
         try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") r.dataset.theme = t; } catch (e) {}
         if (r.hasAttribute("data-fixed")) return;
         var m = new URLSearchParams(location.search).get("mode");
-        if (m !== "work" && m !== "life") { try { m = localStorage.getItem("mode"); } catch (e) {} }
+        if (m === "work" || m === "life") { try { localStorage.setItem("mode", m); } catch (e) {} }
+        else { try { m = localStorage.getItem("mode"); } catch (e) {} }
         if (m === "life") r.dataset.mode = "life";
       })();
     </script>

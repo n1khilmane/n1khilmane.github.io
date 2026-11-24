@@ -5,7 +5,7 @@ import sharp from "sharp";
 
 // Build runs from project root; bundling breaks import.meta.url-relative paths.
 const font = (p: string) => readFileSync(join(process.cwd(), "node_modules/geist/dist/fonts", p));
-const fonts = [
+export const fonts = [
   { name: "Geist", data: font("geist-sans/Geist-Regular.ttf"), weight: 400 as const, style: "normal" as const },
   { name: "Geist", data: font("geist-sans/Geist-SemiBold.ttf"), weight: 600 as const, style: "normal" as const },
   { name: "Geist Mono", data: font("geist-mono/GeistMono-Regular.ttf"), weight: 400 as const, style: "normal" as const },
