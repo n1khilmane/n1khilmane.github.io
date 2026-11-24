@@ -16,7 +16,13 @@ npm run dev    # http://localhost:4321
 
 ## Posting
 
-Add `src/content/posts/<slug>.md`:
+```sh
+npm run new -- "Post title"            # work draft
+npm run new -- "Post title" --life     # life draft
+npm run new -- "Post title" --publish  # not a draft
+```
+
+Or add `src/content/posts/<slug>.md` by hand:
 
 ```md
 ---

@@ -51,6 +51,7 @@ const emptyPosts: Record<Mode, string> = { work: "First post soon.", life: "Noth
                     <span class="dots" aria-hidden="true"></span>
                     <span class="mono meta">{readTime(p.body)}m · <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time></span>
                   </a>
+                  {p.data.description && <p class="desc muted">{p.data.description}</p>}
                 </li>
               ))}
             </ul>
@@ -155,6 +156,12 @@ const emptyPosts: Record<Mode, string> = { work: "First post soon.", life: "Noth
   .posts .meta { flex: none; color: var(--faint); }
   .posts a:hover .t { color: var(--accent); }
   .posts a:hover .dots { border-color: var(--accent); }
+  .posts .desc {
+    margin: 0; font-size: 0.875rem; line-height: 1.5; max-height: 0; opacity: 0; overflow: hidden;
+    transition: max-height .3s cubic-bezier(.3,.7,.2,1), opacity .2s, margin .3s;
+  }
+  .posts li:hover .desc, .posts li:focus-within .desc { max-height: 3em; opacity: 1; margin: -0.1rem 0 0.4rem; }
+  @media (hover: none) { .posts .desc { max-height: none; opacity: 1; margin: -0.1rem 0 0.4rem; } }
 
   .cards { display: grid; gap: 1rem; }
   .card {
