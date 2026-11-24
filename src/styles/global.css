@@ -70,7 +70,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* label | content rows */
 .rowgrid { display: grid; grid-template-columns: var(--gutter) 1fr; gap: 0 1.5rem; margin-top: 3.5rem; }
-.rowgrid > .k { font: 400 0.78rem/2.05 var(--mono); color: var(--faint); text-transform: lowercase; }
+.rowgrid > .k { font: 400 0.78rem/2.05 var(--mono); color: var(--faint); text-transform: lowercase; margin: 0; }
 @media (max-width: 40rem) {
   .rowgrid { grid-template-columns: 1fr; margin-top: 2.75rem; }
   .rowgrid > .k { margin-bottom: 0.6rem; }

@@ -2,50 +2,58 @@
 import Base from "../layouts/Base.astro";
 import { experience, education, research, other } from "../data/archive";
 ---
-<Base title="Archive" description="Older work, research and writing." noindex>
+<Base title="Archive" description="Older work, research and writing." noindex mode="work">
   <h1 class="display">Archive</h1>
   <p class="muted lede">Older work, 2017–2023.</p>
 
-  <h2 class="label">experience</h2>
-  <ul class="list">
-    {experience.map((e) => (
-      <li>
-        <div class="row"><strong>{e.role}, {e.org}</strong><span class="mono when">{e.when}</span></div>
-        <p class="muted">{e.note}</p>
-      </li>
-    ))}
-  </ul>
+  <section class="rowgrid">
+    <h2 class="k">experience</h2>
+    <ul class="list">
+      {experience.map((e) => (
+        <li>
+          <div class="row"><strong>{e.role}, {e.org}</strong><span class="mono when">{e.when}</span></div>
+          <p class="muted">{e.note}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
 
-  <h2 class="label">education</h2>
-  <ul class="list">
-    {education.map((e) => (
-      <li>
-        <div class="row"><strong>{e.school}</strong><span class="mono when">{e.when}</span></div>
-        <p class="muted">{e.degree}. {e.note}</p>
-      </li>
-    ))}
-  </ul>
+  <section class="rowgrid">
+    <h2 class="k">education</h2>
+    <ul class="list">
+      {education.map((e) => (
+        <li>
+          <div class="row"><strong>{e.school}</strong><span class="mono when">{e.when}</span></div>
+          <p class="muted">{e.degree}. {e.note}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
 
-  <h2 class="label">research</h2>
-  <ul class="list">
-    {research.map((r) => (
-      <li>
-        <strong>{r.title}</strong>
-        <p class="muted">{r.note}</p>
-        <p class="mono links">{r.links.map((l) => <a href={l.href}>{l.label} ↗</a>)}</p>
-      </li>
-    ))}
-  </ul>
+  <section class="rowgrid">
+    <h2 class="k">research</h2>
+    <ul class="list">
+      {research.map((r) => (
+        <li>
+          <strong>{r.title}</strong>
+          <p class="muted">{r.note}</p>
+          <p class="mono links">{r.links.map((l) => <a href={l.href}>{l.label} ↗</a>)}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
 
-  <h2 class="label">other</h2>
-  <ul class="list">
-    {other.map((o) => (
-      <li>
-        <a href={o.href}><strong>{o.title}</strong> ↗</a>
-        <p class="muted">{o.note}</p>
-      </li>
-    ))}
-  </ul>
+  <section class="rowgrid">
+    <h2 class="k">other</h2>
+    <ul class="list">
+      {other.map((o) => (
+        <li>
+          <a href={o.href}><strong>{o.title}</strong> ↗</a>
+          <p class="muted">{o.note}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
 </Base>
 
 <style>
