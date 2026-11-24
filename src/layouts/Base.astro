@@ -1,15 +1,15 @@
 ---
 import "../styles/global.css";
-import { site } from "../data/site";
+import { site, type Mode } from "../data/site";
 
-interface Props { title?: string; description?: string; noindex?: boolean }
-const { title, description = site.bio.work, noindex = false } = Astro.props;
+interface Props { title?: string; description?: string; noindex?: boolean; mode?: Mode; home?: boolean }
+const { title, description = site.bio.work, noindex = false, mode, home = false } = Astro.props;
 const fullTitle = title ? `${title} · ${site.name}` : site.name;
 const canonical = new URL(Astro.url.pathname, site.url);
 const year = new Date().getFullYear();
 ---
 <!doctype html>
-<html lang="en" data-mode="work">
+<html lang="en" data-mode={mode ?? "work"} data-fixed={mode ? "" : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,28 +25,51 @@ const year = new Date().getFullYear();
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
     <script is:inline>
       (function () {
+        var r = document.documentElement;
+        if (r.hasAttribute("data-fixed")) return;
         var m = new URLSearchParams(location.search).get("mode");
         if (m !== "work" && m !== "life") { try { m = localStorage.getItem("mode"); } catch (e) {} }
-        if (m === "life") document.documentElement.dataset.mode = "life";
+        if (m === "life") r.dataset.mode = "life";
       })();
     </script>
   </head>
   <body>
     <main class="wrap">
+      <div class="topbar mono">
+        {home ? <span></span> : <a href="/">← {site.name}</a>}
+        <span class="clock" data-tz={site.tz} title={`Local time, ${site.city}`}>{site.city}</span>
+      </div>
       <slot />
       <footer class="site mono">
         <span>© {year} {site.name}</span>
-        <span><a href="/archive">archive</a></span>
+        <span class="foot-r">
+          {home && <span class="hint">press <kbd>w</kbd> / <kbd>l</kbd></span>}
+          <a href="/archive">archive</a>
+        </span>
       </footer>
     </main>
     <script is:inline>
-      // Old CRA site registered a service worker; make sure it is gone.
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function (rs) { rs.forEach(function (r) { r.unregister(); }); });
-      }
+      (function () {
+        var c = document.querySelector(".clock");
+        if (c) {
+          var f = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: c.dataset.tz });
+          var city = c.textContent;
+          var tick = function () { c.textContent = city + " · " + f.format(new Date()).toLowerCase(); };
+          tick(); setInterval(tick, 30000);
+        }
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function (rs) { rs.forEach(function (r) { r.unregister(); }); });
+        }
+      })();
     </script>
   </body>
 </html>
+
+<style>
+  .foot-r { display: flex; gap: 1.25rem; align-items: center; }
+  .hint { display: none; }
+  @media (hover: hover) and (pointer: fine) { .hint { display: inline; } }
+</style>

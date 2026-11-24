@@ -12,11 +12,10 @@ const { post } = Astro.props as { post: Post };
 const { Content, headings } = await render(post);
 const toc = headings.filter((h) => h.depth === 2);
 ---
-<Base title={post.data.title} description={post.data.description}>
-  <a class="back mono" href={post.data.mode === "life" ? "/?mode=life" : "/"}>← home</a>
+<Base title={post.data.title} description={post.data.description} mode={post.data.mode}>
   <article>
     <header>
-      <h1>{post.data.title}</h1>
+      <h1 class="display">{post.data.title}</h1>
       <p class="mono meta">
         <time datetime={post.data.date.toISOString()}>{fmtDate(post.data.date, "long")}</time>
         <span>·</span><span>{readTime(post.body)} min</span>
@@ -34,10 +33,8 @@ const toc = headings.filter((h) => h.depth === 2);
 </Base>
 
 <style>
-  .back { color: var(--muted); text-decoration: none; }
-  .back:hover { color: var(--accent); }
-  header { margin: 2.5rem 0 2rem; }
-  h1 { font-size: 1.875rem; font-weight: 600; letter-spacing: -0.025em; line-height: 1.2; margin: 0 0 0.75rem; }
+  header { margin: 4.5rem 0 2rem; }
+  h1 { font-size: clamp(1.75rem, 5vw, 2.2rem); line-height: 1.15; margin: 0 0 0.75rem; }
   .meta { color: var(--faint); margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .draft { color: var(--accent); }
   .toc { display: flex; flex-direction: column; gap: 0.3rem; padding: 0 0 1.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--line); }

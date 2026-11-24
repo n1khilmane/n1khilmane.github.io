@@ -5,6 +5,8 @@ export type Mode = "work" | "life";
 export const site = {
   name: "Nikhil Mane",
   url: "https://nikhilmane.com",
+  city: "New York",
+  tz: "America/New_York",
   // TODO: final bio copy
   bio: {
     work: "Bio TBD.",
