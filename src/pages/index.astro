@@ -7,27 +7,19 @@ import photo from "../assets/nikhil.jpg";
 
 const posts = await getPosts();
 const modes: Mode[] = ["work", "life"];
-const empty: Record<Mode, { posts: string; built: string }> = {
-  work: { posts: "First post soon.", built: "" },
-  life: { posts: "Nothing here yet.", built: "Nothing here yet." },
-};
+const emptyPosts: Record<Mode, string> = { work: "First post soon.", life: "Nothing here yet." };
 ---
-<Base>
-  <header class="intro">
-    <Image src={photo} alt="Nikhil Mane" width={160} height={160} class="photo" loading="eager" />
-    <h1>{site.name}</h1>
-
-    <div class="toggle mono" role="group" aria-label="View">
-      <button type="button" data-set="work">work</button>
-      <button type="button" data-set="life">life</button>
-      <span class="pill" aria-hidden="true"></span>
+<Base home>
+  <header class="hero">
+    <Image src={photo} alt="Nikhil Mane" width={176} height={176} class="photo rise" loading="eager" style="--i:0" />
+    <div class="who">
+      <h1 class="display rise" style="--i:1">{site.name}</h1>
+      <div class="toggle mono rise" style="--i:2" role="group" aria-label="View">
+        <button type="button" data-set="work">work</button>
+        <button type="button" data-set="life">life</button>
+        <span class="pill" aria-hidden="true"></span>
+      </div>
     </div>
-
-    {modes.map((m) => <p class="bio" data-show={m}>{site.bio[m]}</p>)}
-
-    <nav class="links mono" aria-label="Elsewhere">
-      {site.links.map((l) => <a href={l.href} rel="me">{l.label}</a>)}
-    </nav>
   </header>
 
   {modes.map((m) => {
@@ -35,18 +27,28 @@ const empty: Record<Mode, { posts: string; built: string }> = {
     const built = projects.filter((p) => p.mode === m);
     return (
       <div data-show={m}>
-        <section>
-          <h2 class="label">writing</h2>
+        <section class="rowgrid rise" style="--i:3">
+          <h2 class="k">about</h2>
+          <div>
+            <p class="bio">{site.bio[m]}</p>
+            <nav class="links mono" aria-label="Elsewhere">
+              {site.links.map((l) => <a href={l.href} rel="me">{l.label}</a>)}
+            </nav>
+          </div>
+        </section>
+
+        <section class="rowgrid rise" style="--i:4">
+          <h2 class="k">writing</h2>
           {list.length === 0 ? (
-            <p class="muted empty">{empty[m].posts}</p>
+            <p class="muted empty">{emptyPosts[m]}</p>
           ) : (
             <ul class="posts">
               {list.map((p) => (
                 <li>
                   <a href={`/posts/${p.id}/`}>
-                    <time class="mono" datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time>
                     <span class="t">{p.data.title}</span>
-                    <span class="mono rt">{readTime(p.body)} min</span>
+                    <span class="dots" aria-hidden="true"></span>
+                    <span class="mono meta">{readTime(p.body)}m · <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time></span>
                   </a>
                 </li>
               ))}
@@ -54,32 +56,28 @@ const empty: Record<Mode, { posts: string; built: string }> = {
           )}
         </section>
 
-        {(built.length > 0 || empty[m].built) && (
-          <section>
-            <h2 class="label">built</h2>
-            {built.length === 0 ? (
-              <p class="muted empty">{empty[m].built}</p>
-            ) : (
-              <div class="cards">
-                {built.map((p) => {
-                  const Tag = p.href ? "a" : "div";
-                  return (
-                    <Tag class="card" href={p.href}>
-                      <div class="thumb">
-                        {p.thumb ? <Image src={p.thumb} alt="" width={720} /> : <span class="ph">{p.name.toLowerCase()}</span>}
+        {built.length > 0 && (
+          <section class="rowgrid rise" style="--i:5">
+            <h2 class="k">building</h2>
+            <div class="cards">
+              {built.map((p) => {
+                const Tag = p.href ? "a" : "div";
+                return (
+                  <Tag class="card" href={p.href}>
+                    <div class="thumb">
+                      {p.thumb ? <Image src={p.thumb} alt="" width={720} /> : <span class="ph display">{p.name.toLowerCase()}</span>}
+                    </div>
+                    <div class="meta-c">
+                      <div class="row">
+                        <h3>{p.name}{p.href && <span class="arrow" aria-hidden="true"> ↗</span>}</h3>
+                        {p.tag && <span class="tag mono">{p.tag}</span>}
                       </div>
-                      <div class="meta">
-                        <div class="row">
-                          <h3>{p.name}{p.href && <span class="arrow" aria-hidden="true"> ↗</span>}</h3>
-                          {p.tag && <span class="tag mono">{p.tag}</span>}
-                        </div>
-                        <p class="muted">{p.blurb}</p>
-                      </div>
-                    </Tag>
-                  );
-                })}
-              </div>
-            )}
+                      <p class="muted">{p.blurb}</p>
+                    </div>
+                  </Tag>
+                );
+              })}
+            </div>
           </section>
         )}
       </div>
@@ -94,26 +92,34 @@ const empty: Record<Mode, { posts: string; built: string }> = {
     function sync() {
       btns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.set === root.dataset.mode)); });
     }
-    btns.forEach(function (b) {
-      b.addEventListener("click", function () {
-        root.dataset.mode = b.dataset.set;
-        try { localStorage.setItem("mode", b.dataset.set); } catch (e) {}
-        var u = new URL(location.href);
-        if (b.dataset.set === "work") u.searchParams.delete("mode"); else u.searchParams.set("mode", b.dataset.set);
-        history.replaceState(null, "", u);
-        sync();
-      });
+    function set(mode) {
+      if (mode === root.dataset.mode) return;
+      var apply = function () { root.dataset.mode = mode; sync(); };
+      if (document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.startViewTransition(apply);
+      else apply();
+      try { localStorage.setItem("mode", mode); } catch (e) {}
+      var u = new URL(location.href);
+      if (mode === "work") u.searchParams.delete("mode"); else u.searchParams.set("mode", mode);
+      history.replaceState(null, "", u);
+    }
+    btns.forEach(function (b) { b.addEventListener("click", function () { set(b.dataset.set); }); });
+    document.addEventListener("keydown", function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey || /input|textarea|select/i.test(e.target.tagName) || e.target.isContentEditable) return;
+      if (e.key === "w") set("work");
+      else if (e.key === "l") set("life");
     });
     sync();
   })();
 </script>
 
 <style>
-  .intro { display: flex; flex-direction: column; align-items: flex-start; }
-  .photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; }
-  h1 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.025em; line-height: 1.15; margin: 0 0 1rem; }
-  .bio { margin: 1.25rem 0 0; font-size: 1.0625rem; max-width: 32rem; }
-  .links { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; margin-top: 1.25rem; }
+  .hero { display: flex; align-items: center; gap: 1.5rem; margin-top: 4.5rem; }
+  .photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; flex: none; box-shadow: 0 0 0 1px var(--line), 0 0 0 5px var(--bg), 0 0 0 6px var(--line); }
+  .who { display: flex; flex-direction: column; align-items: flex-start; gap: 0.7rem; }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.4rem); line-height: 1.05; margin: 0; }
+
+  .bio { margin: 0; font-size: 1.0625rem; max-width: 30rem; }
+  .links { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; margin-top: 1rem; }
   .links a { color: var(--muted); text-decoration: none; }
   .links a:hover { color: var(--accent); }
 
@@ -123,32 +129,27 @@ const empty: Record<Mode, { posts: string; built: string }> = {
   }
   .toggle button {
     position: relative; z-index: 1; font: inherit; color: var(--muted);
-    background: none; border: 0; padding: 0.3rem 1rem; border-radius: 999px; cursor: pointer;
+    background: none; border: 0; padding: 0.28rem 0.95rem; border-radius: 999px; cursor: pointer;
     transition: color 0.2s;
   }
   .toggle button[aria-pressed="true"] { color: var(--accent); }
   .toggle .pill {
     position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px);
     border-radius: 999px; background: var(--accent-soft);
-    transition: transform 0.25s cubic-bezier(.3,.7,.2,1), background 0.25s;
+    transition: transform 0.3s cubic-bezier(.3,.7,.2,1), background 0.3s;
   }
   :global(:root[data-mode="life"]) .toggle .pill { transform: translateX(100%); }
   @media (prefers-reduced-motion: reduce) { .toggle .pill, .toggle button { transition: none; } }
 
-  .empty { margin: 0; font-size: 0.9375rem; }
+  .empty { margin: 0; }
 
   .posts { list-style: none; margin: 0; padding: 0; }
-  .posts a {
-    display: grid; grid-template-columns: 5.5rem 1fr auto; gap: 1rem; align-items: baseline;
-    padding: 0.55rem 0; text-decoration: none; border-bottom: 1px solid var(--line);
-  }
-  .posts li:first-child a { border-top: 1px solid var(--line); }
-  .posts time, .posts .rt { color: var(--faint); }
+  .posts a { display: flex; align-items: baseline; gap: 0.75rem; padding: 0.3rem 0; text-decoration: none; }
+  .posts .t { flex: 0 1 auto; }
+  .posts .dots { flex: 1 1 1rem; min-width: 1rem; border-bottom: 1px dotted var(--line); transform: translateY(-0.3em); }
+  .posts .meta { flex: none; color: var(--faint); }
   .posts a:hover .t { color: var(--accent); }
-  @media (max-width: 30rem) {
-    .posts a { grid-template-columns: 1fr auto; gap: 0.1rem 1rem; }
-    .posts time { grid-column: 1 / -1; }
-  }
+  .posts a:hover .dots { border-color: var(--accent); }
 
   .cards { display: grid; gap: 1rem; }
   .card {
@@ -162,11 +163,11 @@ const empty: Record<Mode, { posts: string; built: string }> = {
     display: grid; place-items: center; overflow: hidden;
   }
   .thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .ph { font: 600 clamp(2rem, 9vw, 3.25rem)/1 var(--sans); letter-spacing: -0.04em; color: var(--accent); }
-  .meta { padding: 0.9rem 1.1rem 1rem; }
+  .ph { font-size: clamp(2rem, 8vw, 3.25rem); line-height: 1; color: var(--accent); }
+  .meta-c { padding: 0.9rem 1.1rem 1rem; }
   .row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-  .meta h3 { margin: 0; font-size: 1rem; font-weight: 600; }
-  .meta p { margin: 0.2rem 0 0; font-size: 0.9375rem; }
+  .meta-c h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+  .meta-c p { margin: 0.2rem 0 0; font-size: 0.9375rem; }
   .arrow { color: var(--faint); }
   .tag {
     font-size: 0.6875rem; color: var(--accent); border: 1px solid currentColor;

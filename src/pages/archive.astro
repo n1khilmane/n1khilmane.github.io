@@ -3,8 +3,7 @@ import Base from "../layouts/Base.astro";
 import { experience, education, research, other } from "../data/archive";
 ---
 <Base title="Archive" description="Older work, research and writing." noindex>
-  <a class="back mono" href="/">← home</a>
-  <h1>Archive</h1>
+  <h1 class="display">Archive</h1>
   <p class="muted lede">Older work, 2017–2023.</p>
 
   <h2 class="label">experience</h2>
@@ -50,9 +49,7 @@ import { experience, education, research, other } from "../data/archive";
 </Base>
 
 <style>
-  .back { color: var(--muted); text-decoration: none; }
-  .back:hover { color: var(--accent); }
-  h1 { font-size: 1.875rem; font-weight: 600; letter-spacing: -0.025em; margin: 2.5rem 0 0.25rem; }
+  h1 { font-size: clamp(1.75rem, 5vw, 2.2rem); margin: 4.5rem 0 0.25rem; }
   .lede { margin: 0; }
   .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
   .list p { margin: 0.2rem 0 0; font-size: 0.9375rem; }
