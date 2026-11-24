@@ -1,8 +1,9 @@
 name: Deploy
 
+# Manual only until site content is final. To auto-deploy, add:
+#   push:
+#     branches: [master]
 on:
-  push:
-    branches: [master]
   workflow_dispatch:
 
 permissions:

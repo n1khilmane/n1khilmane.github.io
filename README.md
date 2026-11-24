@@ -1,6 +1,6 @@
 # nikhilmane.com
 
-Personal site. Astro, static, deployed to GitHub Pages (`gh-pages` branch) on push to `master`.
+Personal site. Astro, static, deployed to GitHub Pages (`gh-pages` branch) by the manual **Deploy** workflow (Actions tab, or `gh workflow run deploy.yml`).
 
 ```sh
 nvm use        # Node 22
@@ -30,6 +30,6 @@ draft: false      # true = dev only
 Body in Markdown.
 ```
 
-Push to `master` and it deploys. URL is `/posts/<slug>/`.
+Merge to `master`, then run Deploy. URL is `/posts/<slug>/`.
 
 The 2021 React portfolio lives at tag `v1-react`.
