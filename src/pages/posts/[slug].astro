@@ -17,7 +17,7 @@ const { post, newer, older } = Astro.props as { post: Post; newer?: Post; older?
 const { Content, headings } = await render(post);
 const toc = (headings as MarkdownHeading[]).filter((h) => h.depth === 2);
 ---
-<Base title={post.data.title} description={post.data.description} mode={post.data.mode}>
+<Base title={post.data.title} description={post.data.description} mode={post.data.mode} og={`/og/${post.id}.png`}>
   <div class="progress" aria-hidden="true"></div>
   <article>
     <header>

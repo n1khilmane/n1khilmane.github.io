@@ -18,6 +18,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "geist": "^1.9.2",
+    "satori": "^0.63.2",
     "typescript": "^6.0.3"
   }
 }
