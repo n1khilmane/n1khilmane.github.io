@@ -27,6 +27,7 @@ export type Project = {
   href?: string; // omit to render a non-clickable card
   tag?: string; // e.g. "Building", "Prototype", "Acquired"
   thumb?: ImageMetadata; // import from src/assets; omit for typographic placeholder
+  art?: "graph"; // generative thumbnail when no image
 };
 
 export const projects: Project[] = [
@@ -35,6 +36,7 @@ export const projects: Project[] = [
     blurb: "Execution intelligence for sales teams.",
     mode: "work",
     tag: "Building",
+    art: "graph",
     // href: "TODO",
   },
 ];

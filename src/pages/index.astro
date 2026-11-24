@@ -4,6 +4,7 @@ import Base from "../layouts/Base.astro";
 import { site, projects, type Mode } from "../data/site";
 import { getPosts, readTime, fmtDate } from "../lib";
 import photo from "../assets/nikhil.jpg";
+import GraphArt from "../components/GraphArt.astro";
 
 const posts = await getPosts();
 const modes: Mode[] = ["work", "life"];
@@ -65,7 +66,7 @@ const emptyPosts: Record<Mode, string> = { work: "First post soon.", life: "Noth
                 return (
                   <Tag class="card" href={p.href}>
                     <div class="thumb">
-                      {p.thumb ? <Image src={p.thumb} alt="" width={720} /> : <span class="ph display">{p.name.toLowerCase()}</span>}
+                      {p.thumb ? <Image src={p.thumb} alt="" width={720} /> : p.art === "graph" ? <GraphArt label={p.name.toLowerCase()} /> : <span class="ph display">{p.name.toLowerCase()}</span>}
                     </div>
                     <div class="meta-c">
                       <div class="row">

@@ -1,0 +1,113 @@
+---
+// Generative "commitment graph" thumbnail: nodes, threads, pulses travelling along them.
+interface Props { label: string; seed?: number }
+const { label, seed = 7 } = Astro.props;
+---
+<div class="art" data-seed={seed}>
+  <canvas aria-hidden="true"></canvas>
+  <span class="word display">{label}</span>
+</div>
+
+<script>
+  type Node = { x: number; y: number; r: number; ph: number };
+  type Pulse = { e: number; t: number; v: number };
+
+  function rng(seed: number) {
+    return () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+  }
+
+  for (const el of document.querySelectorAll<HTMLElement>(".art")) {
+    const canvas = el.querySelector("canvas")!;
+    const ctx = canvas.getContext("2d")!;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let W = 0, H = 0, nodes: Node[] = [], edges: [number, number][] = [], pulses: Pulse[] = [];
+    let accent = "#2f5f9e", faint = "#a5a59e";
+    let raf = 0, visible = false, last = 0;
+    const mouse = { x: -1e3, y: -1e3 };
+
+    function colors() {
+      const cs = getComputedStyle(el);
+      accent = cs.getPropertyValue("--accent").trim() || accent;
+      faint = cs.getPropertyValue("--faint").trim() || faint;
+    }
+
+    function build() {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      W = el.clientWidth; H = el.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.style.width = W + "px"; canvas.style.height = H + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const r = rng(Number(el.dataset.seed) || 7);
+      const cols = Math.max(6, Math.round(W / 70)), rows = Math.max(3, Math.round(H / 70));
+      nodes = [];
+      for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) {
+        if (r() < 0.28) continue;
+        nodes.push({
+          x: ((i + 0.5 + (r() - 0.5) * 0.7) / cols) * W,
+          y: ((j + 0.5 + (r() - 0.5) * 0.7) / rows) * H,
+          r: 1.2 + r() * 1.8, ph: r() * Math.PI * 2,
+        });
+      }
+      edges = [];
+      nodes.forEach((a, i) => {
+        const near = nodes.map((b, k) => [k, Math.hypot(a.x - b.x, a.y - b.y)] as const)
+          .filter(([k]) => k !== i).sort((p, q) => p[1] - q[1]).slice(0, 3);
+        for (const [k] of near) if (!edges.some(([p, q]) => (p === k && q === i))) edges.push([i, k]);
+      });
+      pulses = Array.from({ length: Math.round(edges.length / 4) }, () => ({ e: Math.floor(r() * edges.length), t: r(), v: 0.15 + r() * 0.25 }));
+    }
+
+    function draw(now: number) {
+      const dt = Math.min(0.05, (now - last) / 1000 || 0); last = now;
+      const time = now / 1000;
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+      for (const [i, k] of edges) {
+        const a = nodes[i], b = nodes[k];
+        const near = Math.max(0, 1 - Math.hypot((a.x + b.x) / 2 - mouse.x, (a.y + b.y) / 2 - mouse.y) / 140);
+        ctx.strokeStyle = near > 0 ? accent : faint;
+        ctx.globalAlpha = 0.22 + near * 0.5;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      for (const n of nodes) {
+        const tw = reduce ? 1 : 0.65 + 0.35 * Math.sin(time * 1.3 + n.ph);
+        ctx.fillStyle = faint; ctx.globalAlpha = 0.55 * tw;
+        ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.fillStyle = accent;
+      for (const p of pulses) {
+        if (!reduce) {
+          p.t += p.v * dt;
+          if (p.t >= 1) { p.t = 0; const end = edges[p.e][1]; const nxt = edges.map((e, idx) => [e, idx] as const).filter(([e]) => e[0] === end || e[1] === end); p.e = nxt.length ? nxt[Math.floor(Math.random() * nxt.length)][1] : Math.floor(Math.random() * edges.length); if (edges[p.e][0] !== end) edges[p.e].reverse(); }
+        }
+        const [i, k] = edges[p.e]; const a = nodes[i], b = nodes[k];
+        const x = a.x + (b.x - a.x) * p.t, y = a.y + (b.y - a.y) * p.t;
+        ctx.globalAlpha = 0.9; ctx.beginPath(); ctx.arc(x, y, 2.2, 0, Math.PI * 2); ctx.fill();
+        ctx.globalAlpha = 0.18; ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (visible && !reduce) raf = requestAnimationFrame(draw);
+    }
+
+    function start() { cancelAnimationFrame(raf); colors(); last = performance.now(); raf = requestAnimationFrame(draw); }
+
+    build(); colors(); draw(performance.now());
+    new ResizeObserver(() => { build(); draw(performance.now()); }).observe(el);
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); else cancelAnimationFrame(raf); }).observe(el);
+    new MutationObserver(() => requestAnimationFrame(() => { colors(); if (reduce) draw(performance.now()); }))
+      .observe(document.documentElement, { attributes: true, attributeFilter: ["data-mode"] });
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { colors(); draw(performance.now()); });
+    el.addEventListener("pointermove", (e) => { const b = el.getBoundingClientRect(); mouse.x = e.clientX - b.left; mouse.y = e.clientY - b.top; if (reduce) draw(performance.now()); });
+    el.addEventListener("pointerleave", () => { mouse.x = mouse.y = -1e3; if (reduce) draw(performance.now()); });
+  }
+</script>
+
+<style>
+  .art { position: relative; width: 100%; height: 100%; }
+  canvas { position: absolute; inset: 0; display: block; }
+  .word {
+    position: absolute; left: 1.1rem; bottom: 0.8rem; font-size: clamp(1.6rem, 6vw, 2.4rem); line-height: 1;
+    color: var(--fg); text-shadow: 0 0 14px var(--accent-soft), 0 0 2px var(--accent-soft);
+  }
+</style>
