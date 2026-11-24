@@ -15,7 +15,14 @@ Drafts (`draft: true`) show in `npm run dev` only, never in production.
 
 ## Headings
 
-Three or more `##` headings auto-generate a contents list.
+Three or more `##` headings auto-generate a contents list.[^1]
+
+## Footnotes
+
+Footnotes become sidenotes in the margin on wide screens.[^2]
+
+[^1]: Only `##` level headings are listed.
+[^2]: On narrow screens they stay at the bottom as normal footnotes.
 
 ## Code
 
