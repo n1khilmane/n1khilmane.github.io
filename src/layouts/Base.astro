@@ -1,4 +1,8 @@
 ---
+import "@fontsource-variable/geist";
+import "@fontsource-variable/geist-mono";
+import "@fontsource-variable/newsreader/opsz.css";
+import "@fontsource-variable/newsreader/opsz-italic.css";
 import "../styles/global.css";
 import { site, type Mode } from "../data/site";
 import Palette from "../components/Palette.astro";
@@ -30,9 +34,6 @@ const year = new Date().getFullYear();
     <meta name="twitter:site" content="@n1khilmane" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title={site.name} href="/rss.xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
     <script is:inline>
       (function () {
         var r = document.documentElement;
@@ -50,7 +51,7 @@ const year = new Date().getFullYear();
         {home ? <span></span> : <a href="/">← {site.name}</a>}
         <span class="tr">
           <span class="clock" data-tz={site.tz} title={`Local time, ${site.city}`}>{site.city}</span>
-          <button type="button" class="kbtn mono" data-open-palette aria-label="Open command menu"><kbd>⌘K</kbd></button>
+          <button type="button" class="kbtn mono" data-open-palette title="Command menu"><kbd>⌘K</kbd><span class="sr"> command menu</span></button>
         </span>
       </div>
       <slot />

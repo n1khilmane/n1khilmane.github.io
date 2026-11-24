@@ -4,14 +4,14 @@
   --bg: light-dark(#fafaf8, #111110);
   --fg: light-dark(#151514, #ecece8);
   --muted: light-dark(#6c6c66, #9a9a94);
-  --faint: light-dark(#a5a59e, #64645e);
+  --faint: light-dark(#73736d, #8a8a84);
   --line: light-dark(#e7e6e1, #252523);
   --card: light-dark(#ffffff, #171716);
   --accent: light-dark(#2f5f9e, #8fb3e8);
   --accent-soft: light-dark(#e9eef6, #1a2331);
-  --sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --serif: "Newsreader", ui-serif, Georgia, serif;
-  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --serif: "Newsreader Variable", ui-serif, Georgia, serif;
+  --mono: "Geist Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
   --body: var(--sans);
   --display: var(--sans);
   --display-weight: 600;
@@ -51,6 +51,7 @@ img { max-width: 100%; height: auto; display: block; }
 .wrap { max-width: var(--w); margin: 0 auto; padding: 2rem 1.25rem 3rem; }
 .mono { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0; }
 .muted { color: var(--muted); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .display { font-family: var(--display); font-weight: var(--display-weight); letter-spacing: var(--display-track); }
 
 /* label | content rows */
@@ -64,7 +65,7 @@ img { max-width: 100%; height: auto; display: block; }
 /* entrance stagger */
 @media (prefers-reduced-motion: no-preference) {
   .rise { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 70ms); }
-  @keyframes rise { from { opacity: 0; transform: translateY(6px); filter: blur(2px); } }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
 }
 
 /* mode visibility: work is default, also without JS */
