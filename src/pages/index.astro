@@ -14,7 +14,7 @@ const emptyPosts: Record<Mode, string> = { work: "First post soon.", life: "Noth
   <header class="hero">
     <Image src={photo} alt="Nikhil Mane" width={176} height={176} class="photo rise" loading="eager" style="--i:0" />
     <div class="who">
-      <h1 class="display rise" style="--i:1">{site.name}</h1>
+      <h1 class="display rise" style="--i:1" aria-label={site.name}><span class="first" aria-hidden="true">{site.name.split(" ")[0]}</span><span class="last" aria-hidden="true">{site.name.split(" ").slice(1).join(" ")}</span></h1>
       <div class="toggle mono rise" style="--i:2" role="group" aria-label="View">
         <button type="button" data-set="work">work</button>
         <button type="button" data-set="life">life</button>
@@ -117,7 +117,11 @@ const emptyPosts: Record<Mode, string> = { work: "First post soon.", life: "Noth
   .hero { display: flex; align-items: center; gap: 1.5rem; margin-top: 4.5rem; }
   .photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; flex: none; box-shadow: 0 0 0 1px var(--line), 0 0 0 5px var(--bg), 0 0 0 6px var(--line); }
   .who { display: flex; flex-direction: column; align-items: flex-start; gap: 0.7rem; }
-  h1 { font-size: clamp(1.9rem, 5vw, 2.4rem); line-height: 1.05; margin: 0; }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.4rem); line-height: 1.05; margin: 0; white-space: nowrap; }
+  h1 .last { display: inline-block; margin-left: .26em; transition: opacity .35s, max-width .45s cubic-bezier(.3,.7,.2,1), margin .45s; max-width: 8em; overflow: hidden; vertical-align: bottom; }
+  :global(:root[data-mode="life"]) h1 .last { opacity: 0; max-width: 0; margin-left: 0; }
+  .photo { transition: filter .5s; }
+  :global(:root[data-mode="life"]) .photo { filter: sepia(.35) saturate(1.15) hue-rotate(-12deg) brightness(1.02); }
 
   .bio { margin: 0; font-size: 1.0625rem; max-width: 30rem; }
   .links { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; margin-top: 1rem; }
