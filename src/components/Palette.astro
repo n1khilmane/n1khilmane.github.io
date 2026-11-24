@@ -1,0 +1,128 @@
+---
+import { site } from "../data/site";
+import { getPosts } from "../lib";
+
+const posts = (await getPosts()).filter((p) => import.meta.env.DEV || !p.data.draft);
+type Item = { group: string; label: string; hint?: string; href?: string; action?: string };
+const items: Item[] = [
+  { group: "go", label: "Home", href: "/" },
+  { group: "go", label: "Archive", href: "/archive" },
+  { group: "go", label: "RSS feed", href: "/rss.xml" },
+  ...posts.map((p) => ({ group: "writing", label: p.data.title, hint: p.data.mode, href: `/posts/${p.id}/` })),
+  ...site.links.map((l) => ({ group: "elsewhere", label: l.label, hint: "↗", href: l.href })),
+  { group: "do", label: "Copy email", action: "copy-email" },
+  { group: "do", label: "Switch to work", hint: "w", action: "mode:work" },
+  { group: "do", label: "Switch to life", hint: "l", action: "mode:life" },
+  { group: "theme", label: "Theme: system", action: "theme:system" },
+  { group: "theme", label: "Theme: light", action: "theme:light" },
+  { group: "theme", label: "Theme: dark", action: "theme:dark" },
+];
+const email = site.links.find((l) => l.href.startsWith("mailto:"))?.href.slice(7) ?? "";
+---
+<dialog class="palette" aria-label="Command menu" data-email={email}>
+  <input class="q" type="text" placeholder="Search or jump to…" autocomplete="off" spellcheck="false" aria-label="Search" />
+  <ul class="list" role="listbox">
+    {items.map((it, i) => (
+      <li role="option" data-i={i} data-href={it.href} data-action={it.action} data-text={`${it.group} ${it.label}`.toLowerCase()}>
+        <span class="g mono">{it.group}</span>
+        <span class="l">{it.label}</span>
+        {it.hint && <span class="h mono">{it.hint}</span>}
+      </li>
+    ))}
+  </ul>
+  <p class="none mono" hidden>No matches.</p>
+  <p class="foot mono"><span>↑↓ move</span><span>↵ open</span><span>esc close</span></p>
+</dialog>
+
+<script>
+  const dlg = document.querySelector<HTMLDialogElement>(".palette")!;
+  const q = dlg.querySelector<HTMLInputElement>(".q")!;
+  const opts = [...dlg.querySelectorAll<HTMLLIElement>("li")];
+  const none = dlg.querySelector<HTMLElement>(".none")!;
+  let sel = 0;
+
+  const visible = () => opts.filter((o) => !o.hidden);
+  function mark() {
+    const v = visible();
+    sel = Math.max(0, Math.min(sel, v.length - 1));
+    opts.forEach((o) => o.setAttribute("aria-selected", "false"));
+    if (v[sel]) { v[sel].setAttribute("aria-selected", "true"); v[sel].scrollIntoView({ block: "nearest" }); }
+    none.hidden = v.length > 0;
+  }
+  function filter() {
+    const terms = q.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    opts.forEach((o) => { o.hidden = !terms.every((t) => o.dataset.text!.includes(t)); });
+    sel = 0; mark();
+  }
+  function open() { if (dlg.open) return; q.value = ""; filter(); dlg.showModal(); q.focus(); }
+  function close() { dlg.close(); }
+
+  function setTheme(t: string) {
+    const r = document.documentElement;
+    if (t === "system") delete r.dataset.theme; else r.dataset.theme = t;
+    try { t === "system" ? localStorage.removeItem("theme") : localStorage.setItem("theme", t); } catch {}
+  }
+  function run(o?: HTMLElement) {
+    if (!o) return;
+    const { href, action } = o.dataset;
+    close();
+    if (href) { if (/^https?:|^mailto:/.test(href)) window.open(href, href.startsWith("mailto:") ? "_self" : "_blank", "noopener"); else location.href = href; return; }
+    if (!action) return;
+    const [kind, arg] = action.split(":");
+    if (kind === "theme") setTheme(arg);
+    else if (kind === "mode") {
+      if (document.querySelector(".toggle")) document.dispatchEvent(new KeyboardEvent("keydown", { key: arg[0] }));
+      else location.href = arg === "life" ? "/?mode=life" : "/?mode=work";
+    } else if (kind === "copy-email") navigator.clipboard?.writeText(dlg.dataset.email || "");
+  }
+
+  q.addEventListener("input", filter);
+  dlg.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") { sel++; mark(); e.preventDefault(); }
+    else if (e.key === "ArrowUp") { sel--; mark(); e.preventDefault(); }
+    else if (e.key === "Enter") { run(visible()[sel]); e.preventDefault(); }
+  });
+  opts.forEach((o) => {
+    o.addEventListener("click", () => run(o));
+    o.addEventListener("mousemove", () => { const i = visible().indexOf(o); if (i !== sel) { sel = i; mark(); } });
+  });
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) close(); });
+
+  document.addEventListener("keydown", (e) => {
+    const typing = /input|textarea|select/i.test((e.target as HTMLElement).tagName);
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); dlg.open ? close() : open(); }
+    else if (e.key === "/" && !typing && !dlg.open) { e.preventDefault(); open(); }
+  });
+  document.querySelectorAll("[data-open-palette]").forEach((b) => b.addEventListener("click", open));
+</script>
+
+<style>
+  .palette {
+    width: min(34rem, calc(100vw - 2rem)); max-height: min(28rem, 70vh); padding: 0; margin: 12vh auto auto;
+    border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--fg);
+    box-shadow: 0 24px 60px -20px rgb(0 0 0 / .35); overflow: hidden; font-family: var(--sans);
+  }
+  .palette[open] { display: flex; flex-direction: column; }
+  .palette::backdrop { background: rgb(0 0 0 / .25); backdrop-filter: blur(2px); }
+  @media (prefers-reduced-motion: no-preference) {
+    .palette[open] { animation: pop .18s cubic-bezier(.2,.7,.2,1); }
+    @keyframes pop { from { opacity: 0; transform: translateY(6px) scale(.985); } }
+  }
+  .q {
+    font: 400 1rem var(--sans); color: var(--fg); background: none; border: 0; border-bottom: 1px solid var(--line);
+    padding: 0.95rem 1.1rem; outline: none; width: 100%;
+  }
+  .q::placeholder { color: var(--faint); }
+  .list { list-style: none; margin: 0; padding: 0.4rem; overflow-y: auto; flex: 1; }
+  li {
+    display: grid; grid-template-columns: 5.5rem 1fr auto; align-items: center; gap: 0.75rem;
+    padding: 0.5rem 0.7rem; border-radius: 8px; cursor: pointer; font-size: 0.9375rem;
+  }
+  li[hidden] { display: none; }
+  li[aria-selected="true"] { background: var(--accent-soft); }
+  li[aria-selected="true"] .l { color: var(--accent); }
+  .g, .h { color: var(--faint); }
+  .none { color: var(--faint); padding: 0.5rem 1.1rem 1rem; margin: 0; }
+  .foot { display: flex; gap: 1rem; margin: 0; padding: 0.55rem 1.1rem; border-top: 1px solid var(--line); color: var(--faint); font-size: 0.7rem; }
+  @media (hover: none) { .foot { display: none; } }
+</style>
