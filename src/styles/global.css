@@ -1,12 +1,14 @@
+/* Colors use light-dark(): follows system, or data-theme="light|dark" override. */
 :root {
-  --bg: #fafaf8;
-  --fg: #151514;
-  --muted: #6c6c66;
-  --faint: #a5a59e;
-  --line: #e7e6e1;
-  --card: #ffffff;
-  --accent: #2f5f9e;
-  --accent-soft: #e9eef6;
+  color-scheme: light dark;
+  --bg: light-dark(#fafaf8, #111110);
+  --fg: light-dark(#151514, #ecece8);
+  --muted: light-dark(#6c6c66, #9a9a94);
+  --faint: light-dark(#a5a59e, #64645e);
+  --line: light-dark(#e7e6e1, #252523);
+  --card: light-dark(#ffffff, #171716);
+  --accent: light-dark(#2f5f9e, #8fb3e8);
+  --accent-soft: light-dark(#e9eef6, #1a2331);
   --sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --serif: "Newsreader", ui-serif, Georgia, serif;
   --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -16,34 +18,17 @@
   --display-track: -0.03em;
   --w: 44rem;
   --gutter: 9rem;
-  color-scheme: light;
 }
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
 :root[data-mode="life"] {
-  --bg: #faf8f4;
-  --accent: #a6532c;
-  --accent-soft: #f5ebe3;
+  --bg: light-dark(#faf8f4, #13110f);
+  --accent: light-dark(#a6532c, #e59b74);
+  --accent-soft: light-dark(#f5ebe3, #2c1f17);
   --body: var(--serif);
   --display: var(--serif);
   --display-weight: 400;
   --display-track: -0.015em;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111110;
-    --fg: #ecece8;
-    --muted: #9a9a94;
-    --faint: #64645e;
-    --line: #252523;
-    --card: #171716;
-    --accent: #8fb3e8;
-    --accent-soft: #1a2331;
-    color-scheme: dark;
-  }
-  :root[data-mode="life"] {
-    --bg: #13110f;
-    --accent: #e59b74;
-    --accent-soft: #2c1f17;
-  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -121,6 +106,7 @@ footer.site kbd { font: inherit; border: 1px solid var(--line); border-radius: 4
 .prose hr { border: 0; text-align: center; margin: 2.5rem 0; }
 .prose hr::after { content: "· · ·"; color: var(--faint); letter-spacing: .5em; }
 
-@media (prefers-color-scheme: dark) {
-  .astro-code, .astro-code span { color: var(--shiki-dark) !important; background-color: var(--shiki-dark-bg) !important; }
+.astro-code, .astro-code span {
+  color: light-dark(var(--shiki-light), var(--shiki-dark));
+  background-color: light-dark(var(--shiki-light-bg), var(--shiki-dark-bg));
 }

@@ -25,11 +25,12 @@ const { label, seed = 7 } = Astro.props;
     let raf = 0, visible = false, last = 0;
     const mouse = { x: -1e3, y: -1e3 };
 
-    function colors() {
-      const cs = getComputedStyle(el);
-      accent = cs.getPropertyValue("--accent").trim() || accent;
-      faint = cs.getPropertyValue("--faint").trim() || faint;
-    }
+    // Resolve tokens (which use light-dark()) to concrete colors via a probe element.
+    const probe = document.createElement("span");
+    probe.style.display = "none";
+    el.append(probe);
+    function resolve(v: string) { probe.style.color = `var(${v})`; return getComputedStyle(probe).color; }
+    function colors() { accent = resolve("--accent"); faint = resolve("--faint"); }
 
     function build() {
       const dpr = Math.min(devicePixelRatio || 1, 2);
@@ -87,16 +88,17 @@ const { label, seed = 7 } = Astro.props;
         ctx.globalAlpha = 0.18; ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI * 2); ctx.fill();
       }
       ctx.globalAlpha = 1;
-      if (visible && !reduce) raf = requestAnimationFrame(draw);
     }
 
-    function start() { cancelAnimationFrame(raf); colors(); last = performance.now(); raf = requestAnimationFrame(draw); }
+    function frame(now: number) { draw(now); if (visible && !reduce) raf = requestAnimationFrame(frame); }
+
+    function start() { cancelAnimationFrame(raf); colors(); last = performance.now(); raf = requestAnimationFrame(frame); }
 
     build(); colors(); draw(performance.now());
     new ResizeObserver(() => { build(); draw(performance.now()); }).observe(el);
     new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); else cancelAnimationFrame(raf); }).observe(el);
-    new MutationObserver(() => requestAnimationFrame(() => { colors(); if (reduce) draw(performance.now()); }))
-      .observe(document.documentElement, { attributes: true, attributeFilter: ["data-mode"] });
+    new MutationObserver(() => requestAnimationFrame(() => { colors(); draw(performance.now()); }))
+      .observe(document.documentElement, { attributes: true, attributeFilter: ["data-mode", "data-theme"] });
     matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { colors(); draw(performance.now()); });
     el.addEventListener("pointermove", (e) => { const b = el.getBoundingClientRect(); mouse.x = e.clientX - b.left; mouse.y = e.clientY - b.top; if (reduce) draw(performance.now()); });
     el.addEventListener("pointerleave", () => { mouse.x = mouse.y = -1e3; if (reduce) draw(performance.now()); });

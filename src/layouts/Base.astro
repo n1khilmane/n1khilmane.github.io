@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { site, type Mode } from "../data/site";
+import Palette from "../components/Palette.astro";
 
 interface Props { title?: string; description?: string; noindex?: boolean; mode?: Mode; home?: boolean; og?: string }
 const { title, description = site.bio.work, noindex = false, mode, home = false, og = "/og/index.png" } = Astro.props;
@@ -35,6 +36,7 @@ const year = new Date().getFullYear();
     <script is:inline>
       (function () {
         var r = document.documentElement;
+        try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") r.dataset.theme = t; } catch (e) {}
         if (r.hasAttribute("data-fixed")) return;
         var m = new URLSearchParams(location.search).get("mode");
         if (m !== "work" && m !== "life") { try { m = localStorage.getItem("mode"); } catch (e) {} }
@@ -46,18 +48,22 @@ const year = new Date().getFullYear();
     <main class="wrap">
       <div class="topbar mono">
         {home ? <span></span> : <a href="/">← {site.name}</a>}
-        <span class="clock" data-tz={site.tz} title={`Local time, ${site.city}`}>{site.city}</span>
+        <span class="tr">
+          <span class="clock" data-tz={site.tz} title={`Local time, ${site.city}`}>{site.city}</span>
+          <button type="button" class="kbtn mono" data-open-palette aria-label="Open command menu"><kbd>⌘K</kbd></button>
+        </span>
       </div>
       <slot />
       <footer class="site mono">
         <span>© {year} {site.name}</span>
         <span class="foot-r">
-          {home && <span class="hint">press <kbd>w</kbd> / <kbd>l</kbd></span>}
+          {home && <span class="hint"><kbd>w</kbd> / <kbd>l</kbd> to switch</span>}
           <a href="/rss.xml">rss</a>
           <a href="/archive">archive</a>
         </span>
       </footer>
     </main>
+    <Palette />
     <script is:inline>
       (function () {
         var c = document.querySelector(".clock");
@@ -77,6 +83,10 @@ const year = new Date().getFullYear();
 
 <style>
   .foot-r { display: flex; gap: 1.25rem; align-items: center; }
+  .tr { display: flex; gap: 0.9rem; align-items: center; }
+  .kbtn { background: none; border: 0; padding: 0; cursor: pointer; color: var(--faint); }
+  .kbtn kbd { font: inherit; border: 1px solid var(--line); border-radius: 5px; padding: 0.05rem 0.35rem; }
+  .kbtn:hover kbd { color: var(--accent); border-color: var(--accent); }
   .hint { display: none; }
   @media (hover: hover) and (pointer: fine) { .hint { display: inline; } }
 </style>
