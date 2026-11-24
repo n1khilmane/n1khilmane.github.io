@@ -73,6 +73,9 @@ img { max-width: 100%; height: auto; display: block; }
 :root[data-mode="life"] [data-show="life"] { display: revert !important; }
 :root[data-mode="life"] [data-show="work"] { display: none !important; }
 
+/* cross-page crossfade (same-origin navigations) */
+@view-transition { navigation: auto; }
+
 /* mode crossfade (View Transitions) */
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; animation-timing-function: cubic-bezier(.3,.7,.2,1); }
 @media (prefers-reduced-motion: reduce) {
