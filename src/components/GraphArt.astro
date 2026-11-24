@@ -96,7 +96,9 @@ const { label, seed = 7 } = Astro.props;
 
     build(); colors(); draw(performance.now());
     new ResizeObserver(() => { build(); draw(performance.now()); }).observe(el);
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); else cancelAnimationFrame(raf); }).observe(el);
+    // Start animating only once the page is idle, so it doesn't compete with first paint.
+    const idle = (fn: () => void) => ("requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 600));
+    idle(() => new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); else cancelAnimationFrame(raf); }).observe(el));
     new MutationObserver(() => requestAnimationFrame(() => { colors(); draw(performance.now()); }))
       .observe(document.documentElement, { attributes: true, attributeFilter: ["data-mode", "data-theme"] });
     matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { colors(); draw(performance.now()); });
