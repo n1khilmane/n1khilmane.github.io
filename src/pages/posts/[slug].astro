@@ -1,5 +1,6 @@
 ---
 import { render } from "astro:content";
+import type { MarkdownHeading } from "astro";
 import Base from "../../layouts/Base.astro";
 import { getPosts, readTime, fmtDate, type Post } from "../../lib";
 
@@ -10,7 +11,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props as { post: Post };
 const { Content, headings } = await render(post);
-const toc = headings.filter((h) => h.depth === 2);
+const toc = (headings as MarkdownHeading[]).filter((h) => h.depth === 2);
 ---
 <Base title={post.data.title} description={post.data.description} mode={post.data.mode}>
   <article>
